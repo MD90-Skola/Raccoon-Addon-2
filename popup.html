@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Raccoon Tools</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="header">
+    <h1>🦝 Raccoon Tools</h1>
+    <span>⚙️</span>
+  </div>
+
+  <!-- Detta är Privat BOXEN  -->
+  
+  
+    <div class="section card">
+    <div class="section-header">
+      <label>Privat</label>
+      <label class="switch">
+        <input type="checkbox" checked id="toggleInventory">
+        <span class="slider"></span>
+      </label>
+    </div>
+    
+    
+    <div class="quick-buttons" id="inventoryBox">
+      <button>Inventory</button>
+      <button>Trade</button>
+      <button>API Key</button>
+      
+      
+      
+      
+      
+      
+    </div>
+  </div>
+
+  <!-- Detta är Privat BOXEN -->
+  
+  
+  
+  
+    <!-- Knife Finder BOXEN -->
+  
+  <div class="section card">
+    <div class="section-header">
+      <label>Knife Finder</label>
+      <label class="switch">
+        <input type="checkbox" checked id="toggleFilter">
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div id="filterBox">
+      <select id="knifeType">
+
+      </select>
+      <select id="knifeSkin">
+        <option>Doppler</option>
+        <option>Fade</option>
+        <option>Lore</option>
+        <option>Crimson Web</option>
+        <option>Tiger Tooth</option>
+      </select>
+      <div class="percent-range">
+
+      </div>
+      <div class="checkbox-group compact">
+        <div class="checkbox-inline">
+          <label><input type="checkbox"> 🔥 Glow</label>
+          <input type="number" placeholder="-20">
+          <input type="number" placeholder="12">
+        </div>
+        <div class="checkbox-inline">
+          <label><input type="checkbox"> 🔊 Alert</label>
+          <input type="number" placeholder="-20">
+          <input type="number" placeholder="12">
+        </div>
+        <div class="checkbox-inline">
+          <label><input type="checkbox"> 🚨 Blink</label>
+          <input type="number" placeholder="-20">
+          <input type="number" placeholder="12">
+        </div>
+      </div>
+      <button class="full-width">🔍 Sök</button>
+    </div>
+  </div>
+
+      
+
+
+  
+  
+    <!-- Knife Finder BOXEN -->
+  
+  
+  
+  <div class="section card">
+    <div class="section-header">
+      <label>Kalkylator</label>
+      <label class="switch">
+        <input type="checkbox" checked id="toggleMarkup">
+        <span class="slider"></span>
+      </label>
+    </div>
+    
+   
+    
+    
+    <div id="markupBox">
+      <label>Coin Converter</label>
+      <input type="number" id="coinInput" placeholder="Coins" />
+      <div class="output-line">
+        <span>€ <span id="euroOutput">0.00</span></span>
+        <span>SEK <span id="sekOutput">0.00</span></span>
+      </div>
+<hr style="border: none; height: 2px; background: black; margin: 12px 0;">
+
+      <label>Markup Kalkylator</label>
+      <input type="number" id="priceInput" placeholder="Pris (coins)">
+      <input type="range" id="markupPercent" min="0" max="12" value="0">
+      <div class="output-line">
+        Markup: <span id="markupPercentValue">0</span>% | Summa: <span id="markupResult">0.00</span> coins
+      </div>
+    </div>
+  </div>
+
+  <div class="section card">
+    <div class="section-header">
+      <label>Options</label>
+      <label class="switch">
+        <input type="checkbox" checked id="toggleTools">
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="quick-buttons" id="toolsBox">
+      
+      
+      
+      
+<div class="custom-toggle-group">
+  <div class="custom-toggle">
+    <span class="toggle-label">Percent Glow</span>
+    <input type="checkbox" id="percentGlowToggle">
+    <label class="custom-switch" for="percentGlowToggle"></label>
+  </div>
+
+  <div class="custom-toggle">
+    <span class="toggle-label">Profit Potential</span>
+    <input type="checkbox" id="profitPotentialToggle">
+    <label class="custom-switch" for="profitPotentialToggle"></label>
+  </div>
+
+  <div class="custom-toggle">
+    <span class="toggle-label">Wallet to Euro</span>
+    <input type="checkbox" id="walletToEuroToggle">
+    <label class="custom-switch" for="walletToEuroToggle"></label>
+  </div>
+
+  <div class="custom-toggle">
+    <span class="toggle-label">Gem Alert</span>
+    <input type="checkbox" id="gemAlertToggle">
+    <label class="custom-switch" for="gemAlertToggle"></label>
+  </div>
+</div>
+        
+        
+        
+        
+    
+    </div>
+  </div>
+
+
+  
+  
+  <div class="footer">
+    Raccoon Tools • v2.0
+  </div>
+
+  <script>
+    document.getElementById('toggleFilter').addEventListener('change', function () {
+      document.getElementById('filterBox').style.display = this.checked ? 'block' : 'none';
+    });
+
+    document.getElementById('toggleMarkup').addEventListener('change', function () {
+      document.getElementById('markupBox').style.display = this.checked ? 'block' : 'none';
+    });
+
+    document.getElementById('toggleTools').addEventListener('change', function () {
+      document.getElementById('toolsBox').style.display = this.checked ? 'grid' : 'none';
+    });
+
+    document.getElementById('toggleInventory').addEventListener('change', function () {
+      document.getElementById('inventoryBox').style.display = this.checked ? 'grid' : 'none';
+    });
+
+    document.getElementById('markupPercent').addEventListener('input', calculateMarkup);
+    document.getElementById('priceInput').addEventListener('input', calculateMarkup);
+
+    function calculateMarkup() {
+      const price = parseFloat(document.getElementById('priceInput').value) || 0;
+      const percent = parseFloat(document.getElementById('markupPercent').value) || 0;
+      const result = price + (price * percent / 100);
+      document.getElementById('markupResult').textContent = result.toFixed(2);
+      document.getElementById('markupPercentValue').textContent = percent;
+    }
+  </script>
+</body>
+</html>
