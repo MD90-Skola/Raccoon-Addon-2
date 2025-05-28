@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-
-
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -13,201 +11,109 @@
     <span>⚙️</span>
   </div>
 
-  <!-- Detta är Privat BOXEN  -->
-  
-  
-    <div class="section card">
+  <!-- Privat BOXEN -->
+  <div class="section card">
     <div class="section-header">
       <label>Privat</label>
-      <label class="switch">
-        <input type="checkbox" checked id="toggleInventory">
-        <span class="slider"></span>
-      </label>
+      <label class="switch"><input type="checkbox" checked id="toggleInventory"><span class="slider"></span></label>
     </div>
-    
-    
     <div class="quick-buttons" id="inventoryBox">
-      <button>Inventory</button>
-      <button>Trade</button>
-      <button>API Key</button>
-      
-      
-      
-      
-      
-      
+      <button>Inventory</button><button>Trade</button><button>API Key</button>
     </div>
   </div>
 
-  <!-- Detta är Privat BOXEN -->
-  
-  
-  
-  
-    <!-- Knife Finder BOXEN -->
-  
+  <!-- Knife Finder BOXEN -->
   <div class="section card">
     <div class="section-header">
       <label>Knife Finder</label>
-      <label class="switch">
-        <input type="checkbox" checked id="toggleFilter">
-        <span class="slider"></span>
-      </label>
+      <label class="switch"><input type="checkbox" checked id="toggleFilter"><span class="slider"></span></label>
     </div>
     <div id="filterBox">
-      <select id="knifeType">
-
-      </select>
-      <select id="knifeSkin">
-        <option>Doppler</option>
-        <option>Fade</option>
-        <option>Lore</option>
-        <option>Crimson Web</option>
-        <option>Tiger Tooth</option>
-      </select>
-      <div class="percent-range">
-
-      </div>
+      <select id="knifeType"><option>Bayonet</option><option>Karambit</option><option>Butterfly Knife</option><option>M9 Bayonet</option><option>Flip Knife</option></select>
+      <select id="knifeSkin"><option>Doppler</option><option>Fade</option><option>Lore</option><option>Crimson Web</option><option>Tiger Tooth</option></select>
       <div class="checkbox-group compact">
-        <div class="checkbox-inline">
-          <label><input type="checkbox"> 🔥 Glow</label>
-          <input type="number" placeholder="-20">
-          <input type="number" placeholder="12">
-        </div>
-        <div class="checkbox-inline">
-          <label><input type="checkbox"> 🔊 Alert</label>
-          <input type="number" placeholder="-20">
-          <input type="number" placeholder="12">
-        </div>
-        <div class="checkbox-inline">
-          <label><input type="checkbox"> 🚨 Blink</label>
-          <input type="number" placeholder="-20">
-          <input type="number" placeholder="12">
-        </div>
+        <div class="checkbox-inline"><label><input type="checkbox"> 🔥 Glow</label><input type="number" placeholder="-99" min="-99" max="12"><input type="number" placeholder="12" min="-99" max="12"></div>
+        <div class="checkbox-inline"><label><input type="checkbox"> 🔊 Alert</label><input type="number" placeholder="-99" min="-99" max="12"><input type="number" placeholder="12" min="-99" max="12"></div>
+        <div class="checkbox-inline"><label><input type="checkbox"> 🚨 Blink</label><input type="number" placeholder="-99" min="-99" max="12"><input type="number" placeholder="12" min="-99" max="12"></div>
       </div>
       <button class="full-width">🔍 Sök</button>
     </div>
   </div>
 
-      
-
-
-  
-  
-    <!-- Knife Finder BOXEN -->
-  
-  
-  
+  <!-- Kalkylator (Coin + Bargain) -->
   <div class="section card">
-    <div class="section-header">
-      <label>Kalkylator</label>
-      <label class="switch">
-        <input type="checkbox" checked id="toggleMarkup">
-        <span class="slider"></span>
-      </label>
-    </div>
-    
-   
-    
-    
-    <div id="markupBox">
+    <div class="section-header"><label>Kalkylator</label><label class="switch"><input type="checkbox" checked id="toggleCalc"><span class="slider"></span></label></div>
+    <div id="calcBox">
+      <!-- Coin converter (kan aktiveras senare) -->
       <label>Coin Converter</label>
       <input type="number" id="coinInput" placeholder="Coins" />
-      <div class="output-line">
-        <span>€ <span id="euroOutput">0.00</span></span>
-        <span>SEK <span id="sekOutput">0.00</span></span>
-      </div>
-<hr style="border: none; height: 2px; background: black; margin: 12px 0;">
-
-      <label>Markup Kalkylator</label>
-      <input type="number" id="priceInput" placeholder="Pris (coins)">
-      <input type="range" id="markupPercent" min="0" max="12" value="0">
-      <div class="output-line">
-        Markup: <span id="markupPercentValue">0</span>% | Summa: <span id="markupResult">0.00</span> coins
-      </div>
+      <div class="output-line"><span>€ <span id="euroOutput">0.00</span></span><span>SEK <span id="sekOutput">0.00</span></span></div>
+      <hr style="border:none;height:1px;background:#000;margin:10px 0;">
+      <!-- Bargain calculator -->
+      <label>Bargain Calculator</label>
+      <input type="number" id="bargainPrice" placeholder="Listpris (coins)">
+      <input type="number" id="bargainOrig" placeholder="Original % (0‑12)" min="0" max="12">
+      <input type="range" id="bargainNew" min="0" max="12" value="0">
+      <div class="output-line">Nytt pris @ <span id="bargainNewVal">0</span>%: <span id="bargainNewPrice">0.00</span></div>
+      <div class="output-line">Diff mot <span id="bargainOrigVal">0</span>%: <span id="bargainDiff">0.00</span></div>
     </div>
   </div>
 
+  <!-- Options -->
   <div class="section card">
-    <div class="section-header">
-      <label>Options</label>
-      <label class="switch">
-        <input type="checkbox" checked id="toggleTools">
-        <span class="slider"></span>
-      </label>
-    </div>
-    <div class="quick-buttons" id="toolsBox">
-      
-      
-      
-      
-<div class="custom-toggle-group">
-  <div class="custom-toggle">
-    <span class="toggle-label">Percent Glow</span>
-    <input type="checkbox" id="percentGlowToggle">
-    <label class="custom-switch" for="percentGlowToggle"></label>
+    <div class="section-header"><label>Options</label><label class="switch"><input type="checkbox" checked id="toggleTools"><span class="slider"></span></label></div>
+    <div class="quick-buttons" id="toolsBox"><button>Percent Glow</button><button>Profit Potential</button><button>Wallet to Euro</button><button id="btn-scout"><span class="label">Scoutmode</span><span class="shortcut"><span class="key">CTRL</span> <span class="key">SHIFT</span></span></button></div>
   </div>
 
-  <div class="custom-toggle">
-    <span class="toggle-label">Profit Potential</span>
-    <input type="checkbox" id="profitPotentialToggle">
-    <label class="custom-switch" for="profitPotentialToggle"></label>
-  </div>
-
-  <div class="custom-toggle">
-    <span class="toggle-label">Wallet to Euro</span>
-    <input type="checkbox" id="walletToEuroToggle">
-    <label class="custom-switch" for="walletToEuroToggle"></label>
-  </div>
-
-  <div class="custom-toggle">
-    <span class="toggle-label">Gem Alert</span>
-    <input type="checkbox" id="gemAlertToggle">
-    <label class="custom-switch" for="gemAlertToggle"></label>
-  </div>
-</div>
-        
-        
-        
-        
-    
-    </div>
-  </div>
-
-
-  
-  
-  <div class="footer">
-    Raccoon Tools • v2.0
-  </div>
+  <div class="footer">Raccoon Tools • v2.2</div>
 
   <script>
-    document.getElementById('toggleFilter').addEventListener('change', function () {
-      document.getElementById('filterBox').style.display = this.checked ? 'block' : 'none';
+    // Toggle helpers
+    [['toggleFilter','filterBox','block'],['toggleCalc','calcBox','block'],['toggleTools','toolsBox','grid'],['toggleInventory','inventoryBox','grid']].forEach(([t,b,mode])=>{
+      document.getElementById(t).addEventListener('change',e=>{document.getElementById(b).style.display=e.target.checked?mode:'none';});
     });
 
-    document.getElementById('toggleMarkup').addEventListener('change', function () {
-      document.getElementById('markupBox').style.display = this.checked ? 'block' : 'none';
+    // Bargain calculator
+    ['bargainPrice','bargainOrig','bargainNew'].forEach(id=>{
+      document.getElementById(id).addEventListener('input',()=>{
+        if(id==='bargainOrig'){
+          const v=parseFloat(bargainOrig.value)||0;
+          bargainNew.value=v;
+        }
+        calcBargain();
+      });
     });
 
-    document.getElementById('toggleTools').addEventListener('change', function () {
-      document.getElementById('toolsBox').style.display = this.checked ? 'grid' : 'none';
-    });
+    function calcBargain(){
+      const list = parseFloat(bargainPrice.value)||0;
+      const orig = parseFloat(bargainOrig.value)||0;
+      const neu  = parseFloat(bargainNew.value)||0;
+      const base = list / (1 + orig/100);
+      const newPrice = base * (1 + neu/100);
+      const diff = newPrice - list;
+      bargainNewVal.textContent  = neu;
+      bargainOrigVal.textContent = orig;
+      bargainNewPrice.textContent = newPrice.toFixed(2);
+      bargainDiff.textContent     = diff.toFixed(2);
+    }
 
-    document.getElementById('toggleInventory').addEventListener('change', function () {
-      document.getElementById('inventoryBox').style.display = this.checked ? 'grid' : 'none';
-    });
+    // ===== Coin Converter =====
+    const COIN_TO_EUR = 0.62;
+    const EUR_TO_SEK  = 10.9087;
 
-    document.getElementById('markupPercent').addEventListener('input', calculateMarkup);
-    document.getElementById('priceInput').addEventListener('input', calculateMarkup);
+    const coinInput   = document.getElementById('coinInput');
+    const euroOutput  = document.getElementById('euroOutput');
+    const sekOutput   = document.getElementById('sekOutput');
 
-    function calculateMarkup() {
-      const price = parseFloat(document.getElementById('priceInput').value) || 0;
-      const percent = parseFloat(document.getElementById('markupPercent').value) || 0;
-      const result = price + (price * percent / 100);
-      document.getElementById('markupResult').textContent = result.toFixed(2);
-      document.getElementById('markupPercentValue').textContent = percent;
+    coinInput.addEventListener('input', convertCoins);
+    function convertCoins(){
+      const coins = parseFloat(coinInput.value)||0;
+      const eur   = coins * COIN_TO_EUR;
+      const sek   = eur * EUR_TO_SEK;
+      euroOutput.textContent = eur.toFixed(2);
+      sekOutput.textContent  = sek.toFixed(2);
     }
   </script>
-</body>
+</body> 
 </html>
+ 

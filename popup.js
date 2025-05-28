@@ -60,5 +60,5 @@ function searchKnife() {
   document.getElementById("result").textContent = `Du söker: ${combo}`;
 
   // Här kan du koppla detta till sökning på din hemsida
-  // t.ex. sökPåWebbsida(combo);
+  // t.ex. sökPåWebbsida(combo); 
 }

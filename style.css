@@ -220,5 +220,5 @@ input[type="range"] {
 }
 
 .checkbox-inline input[type="number"] {
-  width: 60px;
+  width: 60px; 
 }
