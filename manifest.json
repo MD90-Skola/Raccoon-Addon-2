@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "Raccoon Tool PRO",
+  "version": "2.4",
+  "description": "🦝 Super Roll Tool för CSGORoll",
+  "icons": {
+
+  },
+  "permissions": [
+    "scripting",
+    "tabs",
+    "storage",
+    "activeTab",
+    "clipboardWrite"
+  ],
+  "host_permissions": [
+    "https://www.csgoroll.com/*"
+  ],
+  "action": {
+    "default_popup": "Popup/popup.html",
+    "default_icon": {
+
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.csgoroll.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
