@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <title>Raccoon Tools</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="popup.js" defer></script>
+  <link rel="stylesheet" href="style.css" />
+
 </head>
 <body>
   <div class="header">
@@ -13,54 +13,34 @@
   </div>
 
   <!-- Privat BOXEN -->
-  <div class="section card">
-    <div class="section-header">
-      <label>Privat</label>
-      <label class="switch">
-        <input type="checkbox" checked id="toggleInventory">
-        <span class="slider"></span>
+<!-- Privat BOXEN -->
+<div class="section card">
+  <div class="section-header">
+    <label>Privat</label>
+    <label class="switch">
+      <input type="checkbox" checked id="toggleInventory">
+      <span class="slider"></span>
     </label>
+  </div>
+  <div class="quick-buttons" id="inventoryBox">
+<button id="btnInventory">Inventory</button>
+<button id="btnTrade">Trade</button>
+<button id="btnApiKey">API Key</button>
 
-<!-- buttons -->
+  </div>
 </div>
-<div class="quick-buttons" id="inventoryBox">
-  <button id="btnInventory">Inventory</button>
-  <button id="btnTrade">Trade</button>
-  <button id="btnApiKey">API Key</button>
-</div>
-</div>
-<!-- buttons -->
-
 
 
   <!-- Knife Finder BOXEN -->
   <div class="section card">
-    <div class="section-header">
-      <label>Knife Finder</label>
-      <label class="switch">
-        <input type="checkbox" checked id="toggleFilter">
-        <span class="slider"></span>
-      </label>
-    </div>
+    <div class="section-header"><label>Knife Finder</label><label class="switch"><input type="checkbox" checked id="toggleFilter"><span class="slider"></span></label></div>
     <div id="filterBox">
-      <select id="knifeType"></select>
-      <select id="knifeSkin"></select>
+      <select id="knifeType"><option>Bayonet</option><option>Karambit</option><option>Butterfly Knife</option><option>M9 Bayonet</option><option>Flip Knife</option></select>
+      <select id="knifeSkin"><option>Doppler</option><option>Fade</option><option>Lore</option><option>Crimson Web</option><option>Tiger Tooth</option></select>
       <div class="checkbox-group compact">
-        <div class="checkbox-inline">
-          <label><input type="checkbox"> 🔥 Glow</label>
-          <input type="number" placeholder="-99" min="-99" max="12">
-          <input type="number" placeholder="12" min="-99" max="12">
-        </div>
-        <div class="checkbox-inline">
-          <label><input type="checkbox"> 🔊 Alert</label>
-          <input type="number" placeholder="-99" min="-99" max="12">
-          <input type="number" placeholder="12" min="-99" max="12">
-        </div>
-        <div class="checkbox-inline">
-          <label><input type="checkbox"> 🚨 Blink</label>
-          <input type="number" placeholder="-99" min="-99" max="12">
-          <input type="number" placeholder="12" min="-99" max="12">
-        </div>
+        <div class="checkbox-inline"><label><input type="checkbox"> 🔥 Glow</label><input type="number" placeholder="-99" min="-99" max="12"><input type="number" placeholder="12" min="-99" max="12"></div>
+        <div class="checkbox-inline"><label><input type="checkbox"> 🔊 Alert</label><input type="number" placeholder="-99" min="-99" max="12"><input type="number" placeholder="12" min="-99" max="12"></div>
+        <div class="checkbox-inline"><label><input type="checkbox"> 🚨 Blink</label><input type="number" placeholder="-99" min="-99" max="12"><input type="number" placeholder="12" min="-99" max="12"></div>
       </div>
       <button class="full-width">🔍 Sök</button>
     </div>
@@ -68,92 +48,200 @@
 
   <!-- Kalkylator (Coin + Bargain) -->
   <div class="section card">
-    <div class="section-header">
-      <label>Kalkylator</label>
-      <label class="switch">
-        <input type="checkbox" checked id="toggleCalc">
-        <span class="slider"></span>
-      </label>
-    </div>
+    <div class="section-header"><label>Kalkylator</label><label class="switch"><input type="checkbox" checked id="toggleCalc"><span class="slider"></span></label></div>
     <div id="calcBox">
+      <!-- Coin converter -->
       <label>Coin Converter</label>
-      <input type="number" id="coinInput" placeholder="Coins">
-      <div class="output-line">
-        <span>€ <span id="euroOutput">0.00</span></span>
-        <span>SEK <span id="sekOutput">0.00</span></span>
-      </div>
+      <input type="number" id="coinInput" placeholder="Coins" />
+      <div class="output-line"><span>€ <span id="euroOutput">0.00</span></span><span>SEK <span id="sekOutput">0.00</span></span></div>
       <hr style="border:none;height:1px;background:#000;margin:10px 0;">
+      <!-- Bargain calculator -->
       <label>Bargain Calculator</label>
       <input type="number" id="bargainPrice" placeholder="Listpris (coins)">
       <input type="number" id="bargainOrig" placeholder="Original % (0-12)" min="0" max="12" step="0.1">
-      <input type="range" id="bargainNew" min="0" max="12" step="0.1" value="0">
-      <div class="output-line">
-        Nytt pris @ <span id="bargainNewVal">0.0</span>%:
-        <span id="bargainNewPrice">0.00</span>
-      </div>
-      <div class="output-line">
-        Diff mot <span id="bargainOrigVal">0.0</span>%:
-        <span id="bargainDiff">0.00</span>
-      </div>
+    <input type="range" class="custom-slider" id="bargainNew" min="0" max="12" step="0.1" value="0">
+
+      <div class="output-line">Nytt pris @ <span id="bargainNewVal">0.0</span>%: <span id="bargainNewPrice">0.00</span></div>
+      <div class="output-line">Diff mot <span id="bargainOrigVal">0.0</span>%: <span id="bargainDiff">0.00</span></div>
     </div>
   </div>
 
-  <!-- Glow Options BOXEN -->
-  <div class="section card">
-    <div class="section-header">
-      <label>Options</label>
-      <label class="switch">
-        <input type="checkbox" checked id="toggleGlowOpts">
-        <span class="slider"></span>
-      </label>
-    </div>
-    <div id="glowOptionsBox" class="checkbox-group compact">
-      <div class="checkbox-inline">
-        <label><input type="checkbox"> 🔥 Glow</label>
-        <input type="number" placeholder="-99" min="-99" max="12">
-        <input type="number" placeholder="12" min="-99" max="12">
-      </div>
-      <div class="checkbox-inline">
-        <label><input type="checkbox"> 🔊 Alert</label>
-        <input type="number" placeholder="-99" min="-99" max="12">
-        <input type="number" placeholder="12" min="-99" max="12">
-      </div>
-      <div class="checkbox-inline">
-        <label><input type="checkbox"> 🚨 Blink</label>
-        <input type="number" placeholder="-99" min="-99" max="12">
-        <input type="number" placeholder="12" min="-99" max="12">
-      </div>
-      <hr style="border:none;height:1px;background:#000;margin:10px 0;">
-      <div class="checkbox-inline"><label><input type="checkbox"> ➗ Procent Viewer</label></div>
-      <div class="checkbox-inline"><label><input type="checkbox"> 🔭 Scout mode</label></div>
-      <div class="checkbox-inline"><label><input type="checkbox"> 📈 Profit Potential</label></div>
-      <div class="checkbox-inline"><label><input type="checkbox"> 💰 Wallet converter</label></div>
-      <div class="checkbox-inline"><label><input type="checkbox"> ⚡ Insta buy</label></div>
-    </div>
+  
+  <!-- Options -->
+ <!-- Glow Options BOXEN -->
+<div class="section card">
+  <div class="section-header">
+    <label>Options</label>
+    <label class="switch">
+      <input type="checkbox" checked id="toggleGlowOpts">
+      <span class="slider"></span>
+    </label>
   </div>
 
-  <!-- Tutorial / Info -->
-  <div class="section card misc-box">
-    <div class="section-header">
-      <label>Tutorial / Info</label>
-      <label class="switch">
-        <input type="checkbox" id="toggleMisc">
-        <span class="slider"></span>
+  <div id="glowOptionsBox" class="checkbox-group compact">
+
+    <!-- Glow -->
+    <div class="checkbox-inline">
+      <label class="toggle-switch">
+        <input type="checkbox">
+        <span class="toggle-slider"></span>
       </label>
+      <label>🔥 Glow</label>
+      <input type="number" placeholder="-99" min="-99" max="12">
+      <input type="number" placeholder="12" min="-99" max="12">
     </div>
-    <div class="quick-buttons hidden" id="miscContent">
-      <label>➗ = Magnifying glass on %</label>
-      <label>🔭 = CTRL + SHIFT gives info on cards</label>
-      <label>📈 = Calculates your profit if you buy</label>
-      <label>💰 = Converts Roll coins to EUR/SEK live</label>
-      <label>⚡ = CTRL+SHIFT+m1 to insta-buy </label>
-      <hr style="border:none;height:1px;background:#000;margin:10px 0;">
-      <label><br><strong>API key</strong> (F12 console command)</label>
-      <br><br><br>
-      <label>Thx for using Raccoon Tools</label>
-      <label>Check for update: <a href="https://github.com/MD90-Skola/Raccoon-Addon-2" target="_blank">HERE</a></label>
+
+    <!-- Alert -->
+    <div class="checkbox-inline">
+      <label class="toggle-switch">
+        <input type="checkbox">
+        <span class="toggle-slider"></span>
+      </label>
+      <label>🔊 Alert</label>
+      <input type="number" placeholder="-99" min="-99" max="12">
+      <input type="number" placeholder="12" min="-99" max="12">
     </div>
-    <div class="footer">Raccoon Tools v2.4</div>
+
+    <!-- Blink -->
+    <div class="checkbox-inline">
+      <label class="toggle-switch">
+        <input type="checkbox">
+        <span class="toggle-slider"></span>
+      </label>
+      <label>🚨 Blink</label>
+      <input type="number" placeholder="-99" min="-99" max="12">
+      <input type="number" placeholder="12" min="-99" max="12">
+    </div>
+
+    <hr style="border:none;height:1px;background:#000;margin:10px 0;">
+
+    <!-- Övriga alternativ -->
+
+<!-- Övriga alternativ -->
+
+<div class="toggle-wrapper">
+  <label>➗ Procent Viewer</label>
+  <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+</div>
+<div class="toggle-wrapper">
+  <label>🔭 Scout mode</label>
+  <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+</div>
+<div class="toggle-wrapper">
+  <label>📈 Profit Potential</label>
+  <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+</div>
+<div class="toggle-wrapper">
+  <label>💰 Wallet converter</label>
+  <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+</div>
+<div class="toggle-wrapper">
+  <label>⚡ Insta buy</label>
+  <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+</div>
+<div class="toggle-wrapper">
+  <label>📷 Print Info</label>
+  <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+</div>
+<div class="toggle-wrapper">
+  <label>💎 Gem drop</label>
+  <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+</div>
+</div> <!-- ✅ 
+
+
+  <!-- Options -->
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+<!-- Misc Box -->
+<div class="section card misc-box">
+  <div class="section-header">
+    <label>Tutorial / Info</label>
+    <label class="switch">
+    <input type="checkbox" id="toggleMisc">
+      <span class="slider"></span>
+    </label>
   </div>
+
+  <div class="quick-buttons hidden" id="miscContent">
+    <label>➗ = Magnifying glass on %</label>
+    <label>🔭 = CTRL + SHIFT gives info on cards</label>
+    <label>📈 = Calculates your profit if you buy</label>
+    <label>💰 = Converts Roll coins to EUR/SEK live</label>
+    <label>⚡ = CTRL+SHIFT+m1 to insta-buy </label>
+    <label>📸 = CTRL+SHIFT+K Print info to exel</label>
+    <label>💎 = Gem drop detector</label>
+    <label>🟩 = Procent glower</label>
+    <label>🟨 = Procent glower</label>
+    <label>🟥 = Procent glower</label>
+
+    <hr style="border:none;height:1px;background:#000;margin:10px 0;">
+
+    <label><br><strong>API key</strong> (F12 console command)</label>
+    <br><br><br>
+    <label>Thx for using Raccoon Tools</label>
+    <label>Check for update: <a href="https://github.com/MD90-Skola/Raccoon-Addon-2" target="_blank">HERE</a></label>
+  </div>
+
+  <div class="footer">Raccoon Tools v2.4</div>
+</div>
+
+
+  <!-- Misc Box -->
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+<script src="popup.js"></script>
+
+
 </body>
 </html>

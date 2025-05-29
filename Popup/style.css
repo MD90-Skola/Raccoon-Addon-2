@@ -1,3 +1,7 @@
+/* ======================== */
+/* == GLOBALT & GRUNDLÄGGANDE == */
+/* ======================== */
+
 body {
   margin: 0;
   background: #1e1e1e;
@@ -7,6 +11,11 @@ body {
   padding: 12px;
   box-sizing: border-box;
 }
+
+
+/* ======================== */
+/* == HEADER == */
+/* ======================== */
 
 .header {
   display: flex;
@@ -20,6 +29,11 @@ body {
   margin: 0;
 }
 
+
+/* ======================== */
+/* == SEKTIONER & KORT == */
+/* ======================== */
+
 .section {
   margin-bottom: 16px;
 }
@@ -29,6 +43,12 @@ body {
   padding: 12px;
   border-radius: 8px;
 }
+
+
+/* ======================== */
+/* == FORMULÄR & INPUTS == */
+/* ==  Detta är % slider = */
+/* ======================== */
 
 .section label {
   font-size: 13px;
@@ -49,6 +69,11 @@ input[type="range"] {
   box-sizing: border-box;
 }
 
+
+/* ======================== */
+/* == PROCENT-INPUT STYLING == */
+/* ======================== */
+
 .percent-range {
   display: flex;
   gap: 6px;
@@ -58,12 +83,22 @@ input[type="range"] {
   width: 50%;
 }
 
+
+/* ======================== */
+/* == OUTPUT-TEXTRADER == */
+/* ======================== */
+
 .output-line {
   font-size: 13px;
   margin-bottom: 12px;
   display: flex;
   justify-content: space-between;
 }
+
+
+/* ======================== */
+/* == KNAPPAR – GRUPPERADE == */
+/* ======================== */
 
 .quick-buttons {
   display: grid;
@@ -72,26 +107,48 @@ input[type="range"] {
 }
 
 .quick-buttons button {
-  background: #007bff;
-  border: none;
+  background: #28433a;
   color: white;
+  border: none;
   border-radius: 5px;
-  padding: 6px 0;
+  padding: 6px 12px;
   font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.quick-buttons button:hover {
+  background-color: rgb(30, 57, 48); /* tryckt */
+  outline: none;
+  box-shadow: 0 0 0 2px rgb(0, 199, 77); /* ring vid klick */
+}
+
+
+/* ======================== */
+/* == KNAPPAR – FULL BREDD == */
+/* == sök knappen till knife == */
+/* ======================== */
+
+.full-width {
+  width: 100%;
+  padding: 8px;
+  background: #28433a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
   cursor: pointer;
   transition: background 0.2s;
 }
 
-.quick-buttons button:hover {
-  background: #0056b3;
+.full-width:hover {
+  background: #1e3930;
 }
 
-.footer {
-  text-align: center;
-  font-size: 11px;
-  color: #777;
-  margin-top: 12px;
-}
+
+/* ======================== */
+/* == SWITCH-TOGGLAR == */
+/* ======================== */
 
 .section-header {
   display: flex;
@@ -149,22 +206,10 @@ input[type="range"] {
   transform: translateX(18px);
 }
 
-.full-width {
-  width: 100%;
-  padding: 8px;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.2s;
-}
 
-.full-width:hover {
-  background: #0056b3;
-}
-
+/* ======================== */
+/* == KNIVVALS-SEKTION == */
+/* ======================== */
 
 .knife-options-grid {
   display: grid;
@@ -195,6 +240,11 @@ input[type="range"] {
   font-size: 13px;
 }
 
+
+/* ======================== */
+/* == VALUTAINMATNING == */
+/* ======================== */
+
 .valute-pair {
   display: flex;
   gap: 6px;
@@ -205,6 +255,10 @@ input[type="range"] {
   text-align: center;
 }
 
+
+/* ======================== */
+/* == CHECKBOX-GRUPPER == */
+/* ======================== */
 
 .checkbox-group.compact .checkbox-inline {
   display: flex;
@@ -224,7 +278,9 @@ input[type="range"] {
 }
 
 
-
+/* ======================== */
+/* == MISC BOX == */
+/* ======================== */
 
 .misc-box .quick-buttons {
   display: block;
@@ -246,6 +302,177 @@ input[type="range"] {
   margin-top: 8px;
 }
 
+
+/* ======================== */
+/* == DÖLJ ELEMENT == */
+/* ======================== */
+
 .hidden {
   display: none;
+}
+
+
+
+/* ======================== */
+/* == GLOBAL KNAPP-STYLING == */
+/* ======================== */
+
+button {
+  background-color: rgb(39, 44, 51); /* oklickad */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+button:active {
+  background-color: rgb(30, 57, 48); /* tryckt */
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgb(0, 199, 77); /* ring vid klick */
+}
+
+
+/* ======================== */
+/* == procent slider färg == */
+/* ======================== */
+
+
+
+input[type="range"].custom-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  background: #1e1e1e; /* fallback */
+  border-radius: 5px;
+  outline: none;
+  transition: background 0.3s;
+}
+
+/* Chrome, Edge, Safari */
+input[type="range"].custom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: #00c74d;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: -2px;
+}
+
+/* Firefox */
+input[type="range"].custom-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: #00c74d;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+input[type="range"].custom-slider::-moz-range-track {
+  height: 6px;
+  background: #1e1e1e;
+  border-radius: 5px;
+}
+
+
+
+
+
+/* ======================== */
+/* == checkboxarna        == */
+/* == ok boxarna           == */
+/* ======================== */
+input[type="checkbox"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background-color: #1e1e1e;
+  border: 2px solid #444;
+  border-radius: 3px;
+  position: relative;
+  cursor: pointer;
+}
+
+/* Grön fyrkant istället för bock */
+input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 9px;
+  height: 9px;
+  transform: scale(1.4);
+  background-color: #00c74d  ;  /* din gröna färg */
+  border-radius: 2px;
+}
+
+
+
+/* TOGGLE / TRIGGER FÖR OPTIONS BOX */
+.toggle-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 0;
+  border-bottom: 1px solid #1e1e1e;  /* skapar små rader svart */
+  font-size: 14px;
+}
+
+.toggle-wrapper label {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.toggle-wrapper .switch {
+  flex-shrink: 0;
+  position: relative;
+  width: 40px;
+  height: 20px;
+}
+
+.toggle-wrapper .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-wrapper .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #1e1e1e;
+  transition: .3s;
+  border-radius: 34px;
+}
+
+.toggle-wrapper .slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: #28433a;   /* Kulan */
+  transition: .3s;
+  border-radius: 50%;
+  border: 0.0px solid black; /* ✅ Svart ring runt tummen */
+}
+
+.toggle-wrapper input:checked + .slider {
+  background-color: #1b742f;
+}
+
+.toggle-wrapper input:checked + .slider:before {
+  transform: translateX(20px);
 }
