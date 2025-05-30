@@ -1,4 +1,26 @@
-// KnifeFinder.js – Triggerbaserat, inga loops, inga spams
+// KnifeFinder.js – Triggerbaserat, inga loops, inga spams, ljuduppspelning via AudioContext
+
+// Skapa AudioContext och ladda ljudbuffert vid första klick
+let audioContext;
+let audioBuffer;
+function initAudio() {
+  if (!audioContext) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    // Ladda och dekoda ljudfil
+    fetch(chrome.runtime.getURL('Assets/trade.mp3'))
+      .then(response => response.arrayBuffer())
+      .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+      .then(buffer => {
+        audioBuffer = buffer;
+      })
+      .catch(err => console.warn("🔇 Kunde inte ladda ljudbuffert:", err));
+  }
+  if (audioContext.state === 'suspended') {
+    audioContext.resume().catch(() => {});
+  }
+}
+// Lyssna på första användarklick för att initiera ljud
+document.addEventListener('click', initAudio, { once: true });
 
 function normalize(text) {
   return (text || "").toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -6,6 +28,21 @@ function normalize(text) {
 
 const SETTINGS_KEY = "knifeFinderSettings";
 let alertedCards = new WeakSet();
+
+function playAlertSound() {
+  if (audioContext && audioBuffer) {
+    try {
+      const source = audioContext.createBufferSource();
+      source.buffer = audioBuffer;
+      source.connect(audioContext.destination);
+      source.start(0);
+    } catch(e) {
+      console.warn("🔇 Ljudfel vid uppspelning via AudioContext:", e);
+    }
+  } else {
+    console.warn("🔇 Ljudbuffert ej laddad eller AudioContext ej initierad.");
+  }
+}
 
 function applyFilterToCards(cfg) {
   // Kontrollera grundinställningar
@@ -26,7 +63,7 @@ function applyFilterToCards(cfg) {
     const nameSkinMatch = text.match(/^(.*?)\s+\d/);
     if (!nameSkinMatch) return;
     const nameSkin = nameSkinMatch[1].replace(/[★☆♦▪•–—]/g, '').trim();
-    // Dela på dubbla blanksteg eller enkel blanksteget och/eller '|'
+    // Dela på dubbla blanksteg eller enkel blanksteg och/eller '|'
     let [rawKnife = '', rawSkin = ''] = ['',''];
     if (nameSkin.includes('|')) {
       [rawKnife, rawSkin] = nameSkin.split('|').map(s => s.trim());
@@ -60,13 +97,8 @@ function applyFilterToCards(cfg) {
     }
     if (cfg.ToggleKnifeAlert && pct >= cfg.KnifeAlertPlaceholder1 && pct <= cfg.KnifeAlertPlaceholder2) {
       if (!alertedCards.has(card)) {
-        console.log("🔔 Alert triggered for card:", rawKnife, rawSkin, pct);
-        try {
-          const audio = new Audio(chrome.runtime.getURL('Assets/trade.mp3'));
-          audio.play().catch(err => console.warn("🔇 Ljudfel vid uppspelning:", err));
-        } catch(e) {
-          console.warn("🔇 Audio objekt kunde inte skapas:", e);
-        }
+        // Spela ljud via AudioContext som är upplåst av användarklick
+        playAlertSound();
         alertedCards.add(card);
       }
     }
