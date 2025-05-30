@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <title>Raccoon Tools</title>
   <link rel="stylesheet" href="style.css" />
+  
+
 
 </head>
 <body>
@@ -16,7 +18,7 @@
 <!-- Privat BOXEN -->
 <div class="section card">
   <div class="section-header">
-    <label>Privat</label>
+    <label>PrivatTTTT</label>
     <label class="switch">
       <input type="checkbox" checked id="toggleInventory">
       <span class="slider"></span>
@@ -29,22 +31,55 @@
 
   </div>
 </div>
-
+ <!-- Här ska knivlistan ifrån Functions/knifefinder.js köras -->
 
   <!-- Knife Finder BOXEN -->
-  <div class="section card">
-    <div class="section-header"><label>Knife Finder</label><label class="switch"><input type="checkbox" checked id="toggleFilter"><span class="slider"></span></label></div>
-    <div id="filterBox">
-      <select id="knifeType"><option>Bayonet</option><option>Karambit</option><option>Butterfly Knife</option><option>M9 Bayonet</option><option>Flip Knife</option></select>
-      <select id="knifeSkin"><option>Doppler</option><option>Fade</option><option>Lore</option><option>Crimson Web</option><option>Tiger Tooth</option></select>
-      <div class="checkbox-group compact">
-        <div class="checkbox-inline"><label><input type="checkbox"> 🔥 Glow</label><input type="number" placeholder="-99" min="-99" max="12"><input type="number" placeholder="12" min="-99" max="12"></div>
-        <div class="checkbox-inline"><label><input type="checkbox"> 🔊 Alert</label><input type="number" placeholder="-99" min="-99" max="12"><input type="number" placeholder="12" min="-99" max="12"></div>
-        <div class="checkbox-inline"><label><input type="checkbox"> 🚨 Blink</label><input type="number" placeholder="-99" min="-99" max="12"><input type="number" placeholder="12" min="-99" max="12"></div>
-      </div>
-      <button class="full-width">🔍 Sök</button>
-    </div>
+<div class="section card">
+  <div class="section-header">
+    <label>Knife Finder</label>
+    <label class="switch">
+      <input type="checkbox" checked id="toggleFilter">
+      <span class="slider"></span>
+    </label>
   </div>
+  <div id="filterBox">   <!-- Knife Finder Filterbox -->
+    <select id="knifeType">  
+ 
+    </select>
+    <select id="knifeSkin">          <!-- Knifeskin Finder BOXEN -->
+     <!-- <option>Doppler</option> --> 
+    </select>
+
+    <div class="checkbox-group compact">
+      <div class="checkbox-inline">
+        <label>
+          <input type="checkbox" name="ToggleKnifeGlow" id="ToggleKnifeGlow"> 🔥 Glow
+        </label>
+        <input type="number" placeholder="-99" min="-99" max="12" name="KnifeGlowPlaceholder1" id="KnifeGlowPlaceholder1">
+        <input type="number" placeholder="12" min="-99" max="12" name="KnifeGlowPlaceholder2" id="KnifeGlowPlaceholder2">
+      </div>
+
+      <div class="checkbox-inline">
+        <label>
+          <input type="checkbox" name="ToggleKnifeAlert" id="ToggleKnifeAlert"> 🔊 Alert
+        </label>
+        <input type="number" placeholder="-99" min="-99" max="12" name="KnifeAlertPlaceholder1" id="KnifeAlertPlaceholder1">
+        <input type="number" placeholder="12" min="-99" max="12" name="KnifeAlertPlaceholder2" id="KnifeAlertPlaceholder2">
+      </div>
+
+      <div class="checkbox-inline">
+        <label>
+          <input type="checkbox" name="ToggleKnifeBlink" id="ToggleKnifeBlink"> 🚨 Blink
+        </label>
+        <input type="number" placeholder="-99" min="-99" max="12" name="KnifeBlinkPlaceholder1" id="KnifeBlinkPlaceholder1">
+        <input type="number" placeholder="12" min="-99" max="12" name="KnifeBlinkPlaceholder2" id="KnifeBlinkPlaceholder2">
+      </div>
+    </div>
+
+   <!--  <button class="full-width">🔍 Sök</button> -->
+  </div>
+</div>
+
 
   <!-- Kalkylator (Coin + Bargain) -->
   <div class="section card">
@@ -80,38 +115,38 @@
 
   <div id="glowOptionsBox" class="checkbox-group compact">
 
-    <!-- Glow -->
-    <div class="checkbox-inline">
-      <label class="toggle-switch">
-        <input type="checkbox">
-        <span class="toggle-slider"></span>
-      </label>
-      <label>🔥 Glow</label>
-      <input type="number" placeholder="-99" min="-99" max="12">
-      <input type="number" placeholder="12" min="-99" max="12">
-    </div>
+<!-- Glow -->
+<div class="checkbox-inline">
+  <label class="toggle-switch">
+    <input type="checkbox" id="GlowToggle">
+    <span class="toggle-slider"></span>
+  </label>
+  <label for="GlowToggle">🔥 Glow</label>
+  <input type="number" id="GlowValue1" name="GlowValue1" placeholder="-99" min="-99" max="12">
+  <input type="number" id="GlowValue2" name="GlowValue2" placeholder="12" min="-99" max="12">
+</div>
 
-    <!-- Alert -->
-    <div class="checkbox-inline">
-      <label class="toggle-switch">
-        <input type="checkbox">
-        <span class="toggle-slider"></span>
-      </label>
-      <label>🔊 Alert</label>
-      <input type="number" placeholder="-99" min="-99" max="12">
-      <input type="number" placeholder="12" min="-99" max="12">
-    </div>
+<!-- Alert -->
+<div class="checkbox-inline">
+  <label class="toggle-switch">
+    <input type="checkbox" id="AlertToggle">
+    <span class="toggle-slider"></span>
+  </label>
+  <label for="AlertToggle">🔊 Alert</label>
+  <input type="number" id="alertValue1" name="alertValue1" placeholder="-99" min="-99" max="12">
+  <input type="number" id="alertValue2" name="alertValue2" placeholder="12" min="-99" max="12">
+</div>
 
-    <!-- Blink -->
-    <div class="checkbox-inline">
-      <label class="toggle-switch">
-        <input type="checkbox">
-        <span class="toggle-slider"></span>
-      </label>
-      <label>🚨 Blink</label>
-      <input type="number" placeholder="-99" min="-99" max="12">
-      <input type="number" placeholder="12" min="-99" max="12">
-    </div>
+<!-- Blink -->
+<div class="checkbox-inline">
+  <label class="toggle-switch">
+    <input type="checkbox" id="BlinkToggle">
+    <span class="toggle-slider"></span>
+  </label>
+  <label for="BlinkToggle">🚨 Blink</label>
+  <input type="number" id="BlinkValue1" name="BlinkValue1" placeholder="-99" min="-99" max="12">
+  <input type="number" id="BlinkValue2" name="BlinkValue2" placeholder="12" min="-99" max="12">
+</div>
 
     <hr style="border:none;height:1px;background:#000;margin:10px 0;">
 
@@ -156,10 +191,10 @@
     
     
 </div>
-</div> <!-- ✅ 
+</div> <!-- ✅  -->
 
 
-  <!-- Options -->
+  
 
 
   
@@ -239,17 +274,16 @@
   
   
   
+
+
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-<script src="popup.js"></script>
+<!-- popup.html -->
+<script type="module" src="popup.js"></script>
+
+
+
+
 
 
 </body>

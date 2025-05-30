@@ -1,173 +1,147 @@
+// popup.js
+
+// == Knife Dropdown Data ==
 const knifeTypes = [
-  "Bayonet",
-  "Karambit",
-  "Butterfly Knife",
-  "M9 Bayonet",
-  "Flip Knife",
-  "Huntsman Knife",
-  "Shadow Daggers",
-  "Falchion Knife",
-  "Gut Knife",
-  "Navaja Knife",
-  "Stiletto Knife",
-  "Talon Knife",
-  "Ursus Knife",
-  "Survival Knife",
-  "Paracord Knife",
-  "Nomad Knife",
-  "Skeleton Knife"
+  "Bayonet", "Bowie Knife", "Butterfly Knife", "Classic Knife", "Falchion Knife",
+  "Flip Knife", "Ghost Knife", "Gut Knife", "Huntsman Knife", "Karambit", "Kukri Knife",
+  "M9 Bayonet", "Navaja Knife", "Nomad Knife", "Paracord Knife", "Skeleton Knife",
+  "Stiletto Knife", "Survival Knife", "Talon Knife", "Ursus Knife", "Shadow Daggers"
 ];
 
 const knifeSkins = [
-  "Doppler",
-  "Fade",
-  "Lore",
-  "Crimson Web",
-  "Tiger Tooth",
-  "Slaughter",
-  "Marble Fade",
-  "Damascus Steel",
-  "Case Hardened",
-  "Ultraviolet",
-  "Night",
-  "Rust Coat",
-  "Blue Steel"
+  "Autotronic", "Black Laminate", "Black Pearl", "Blue Steel", "Case Hardened",
+  "Crimson Web", "Damascus Steel", "Doppler", "Emerald", "Fade", "Freehand", "Gamma",
+  "Lore", "Marble Fade", "Night", "Phase 1", "Phase 2", "Phase 3", "Phase 4", "Ruby",
+  "Rust Coat", "Sapphire", "Slaughter", "Tiger Tooth", "Ultraviolet"
 ];
 
-// Fyll dropdowns
+function populateKnifeDropdowns() {
+  const knifeTypeSelect = document.getElementById("knifeType");
+  const knifeSkinSelect = document.getElementById("knifeSkin");
+
+  if (!knifeTypeSelect || !knifeSkinSelect) {
+    console.warn("Dropdowns för knivar saknas i DOM");
+    return;
+  }
+
+  knifeTypeSelect.innerHTML = '';
+  knifeSkinSelect.innerHTML = '';
+
+  knifeTypes.forEach(type => {
+    const opt = document.createElement("option");
+    opt.value = type;
+    opt.textContent = type;
+    knifeTypeSelect.appendChild(opt);
+  });
+
+  knifeSkins.forEach(skin => {
+    const opt = document.createElement("option");
+    opt.value = skin;
+    opt.textContent = skin;
+    knifeSkinSelect.appendChild(opt);
+  });
+}
+
+// DOM Elements
 const knifeTypeSelect = document.getElementById("knifeType");
 const knifeSkinSelect = document.getElementById("knifeSkin");
+const toggleFilter = document.getElementById("toggleFilter");
+const toggleGlow = document.getElementById("ToggleKnifeGlow");
+const toggleAlert = document.getElementById("ToggleKnifeAlert");
+const toggleBlink = document.getElementById("ToggleKnifeBlink");
 
-knifeTypes.forEach(type => {
-  const opt = document.createElement("option");
-  opt.value = type;
-  opt.textContent = type;
-  knifeTypeSelect.appendChild(opt);
-});
+const glowMin = document.getElementById("KnifeGlowPlaceholder1");
+const glowMax = document.getElementById("KnifeGlowPlaceholder2");
+const alertMin = document.getElementById("KnifeAlertPlaceholder1");
+const alertMax = document.getElementById("KnifeAlertPlaceholder2");
+const blinkMin = document.getElementById("KnifeBlinkPlaceholder1");
+const blinkMax = document.getElementById("KnifeBlinkPlaceholder2");
 
-knifeSkins.forEach(skin => {
-  const opt = document.createElement("option");
-  opt.value = skin;
-  opt.textContent = skin;
-  knifeSkinSelect.appendChild(opt);
-});
+const SETTINGS_KEY = "knifeFinderSettings";
 
-// Sök-funktion
-function searchKnife() {
-  const type = knifeTypeSelect.value;
-  const skin = knifeSkinSelect.value;
-  const combo = `${type} | ${skin}`;
-  document.getElementById("result").textContent = `Du söker: ${combo}`;
-
-  // Här kan du koppla detta till sökning på din hemsida
-  // t.ex. sökPåWebbsida(combo);
+// Vänta tills DOM är redo innan dropdowns fylls
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', populateKnifeDropdowns);
+} else {
+  populateKnifeDropdowns();
 }
 
+// Ladda sparade inställningar
+chrome.storage.local.get(SETTINGS_KEY, res => {
+  const settings = res[SETTINGS_KEY] || {};
 
-function updateSliderBackground(slider) {
-  const min = parseFloat(slider.min) || 0;
-  const max = parseFloat(slider.max) || 100;
-  const val = parseFloat(slider.value);
-
-  const percent = ((val - min) / (max - min)) * 100;
-
-  // Justering: tummen är 14px bred → ~7px halvvägs
-  const pixelAdjust = 7; // justering i px
-  const sliderWidth = slider.offsetWidth;
-  const adjustPercent = (pixelAdjust / sliderWidth) * 100;
-
-  const start = Math.max(5, percent - adjustPercent);
-  const end = Math.min(50, percent + adjustPercent);
-
-  slider.style.background = `linear-gradient(to right, #1e3930 0%, #1e3930 ${start}%, #1e1e1e ${end}%, #1e1e1e 100%)`;
-}
-
-document.querySelectorAll('input[type="range"].custom-slider').forEach(slider => {
-  updateSliderBackground(slider);
-  slider.addEventListener('input', () => updateSliderBackground(slider));
+  knifeTypeSelect.value = settings.knifeType || "";
+  knifeSkinSelect.value = settings.knifeSkin || "";
+  toggleFilter.checked = settings.toggleFilter ?? true;
+  toggleGlow.checked = settings.ToggleKnifeGlow || false;
+  toggleAlert.checked = settings.ToggleKnifeAlert || false;
+  toggleBlink.checked = settings.ToggleKnifeBlink || false;
+  glowMin.value = settings.KnifeGlowPlaceholder1 ?? -99;
+  glowMax.value = settings.KnifeGlowPlaceholder2 ?? 12;
+  alertMin.value = settings.KnifeAlertPlaceholder1 ?? -99;
+  alertMax.value = settings.KnifeAlertPlaceholder2 ?? 12;
+  blinkMin.value = settings.KnifeBlinkPlaceholder1 ?? -99;
+  blinkMax.value = settings.KnifeBlinkPlaceholder2 ?? 12;
 });
 
-
-
-(() => {
-  'use strict';
-
-  // TOGGLE HELPERS
-  const toggles = [
-    ['toggleFilter',   'filterBox',      'block'],
-    ['toggleCalc',     'calcBox',        'block'],
-    ['toggleInventory','inventoryBox',   'grid'],
-    ['toggleGlowOpts', 'glowOptionsBox', 'block'],
-    ['toggleMisc',     'miscContent',    'block']
-  ];
-
-  toggles.forEach(([chkId, boxId, mode]) => {
-    const chk  = document.getElementById(chkId);
-    const box  = document.getElementById(boxId);
-    if (!chk || !box) return;
-    const update = () => { box.style.display = chk.checked ? mode : 'none'; };
-    chk.addEventListener('change', update);
-    update();
-  });
-
-  // BARGAIN CALCULATOR
-  const bargainFields = ['bargainPrice', 'bargainOrig', 'bargainNew']
-    .map(id => document.getElementById(id))
-    .filter(Boolean);
-
-  const calcBargain = () => {
-    const list =  parseFloat(bargainPrice.value) || 0;
-    const orig =  parseFloat(bargainOrig.value)  || 0;
-    const neu  =  parseFloat(bargainNew.value)   || 0;
-    const base     = list / (1 + orig / 100);
-    const newPrice = base * (1 + neu / 100);
-    const diff     = newPrice - list;
-
-    bargainNewVal.textContent   = neu .toFixed(1);
-    bargainOrigVal.textContent  = orig.toFixed(1);
-    bargainNewPrice.textContent = newPrice.toFixed(2);
-    bargainDiff.textContent     = diff.toFixed(2);
+function saveSettings() {
+  const updatedSettings = {
+    knifeType: knifeTypeSelect.value,
+    knifeSkin: knifeSkinSelect.value,
+    toggleFilter: toggleFilter.checked,
+    ToggleKnifeGlow: toggleGlow.checked,
+    ToggleKnifeAlert: toggleAlert.checked,
+    ToggleKnifeBlink: toggleBlink.checked,
+    KnifeGlowPlaceholder1: parseFloat(glowMin.value),
+    KnifeGlowPlaceholder2: parseFloat(glowMax.value),
+    KnifeAlertPlaceholder1: parseFloat(alertMin.value),
+    KnifeAlertPlaceholder2: parseFloat(alertMax.value),
+    KnifeBlinkPlaceholder1: parseFloat(blinkMin.value),
+    KnifeBlinkPlaceholder2: parseFloat(blinkMax.value)
   };
 
-  bargainFields.forEach(el => {
-    el.addEventListener('input', () => {
-      if (el.id === 'bargainOrig') {
-        bargainNew.value = parseFloat(bargainOrig.value) || 0;
-      }
-      calcBargain();
-    });
+  chrome.storage.local.set({ [SETTINGS_KEY]: updatedSettings });
+}
+
+// Event Listeners
+[
+  knifeTypeSelect, knifeSkinSelect,
+  toggleFilter, toggleGlow, toggleAlert, toggleBlink,
+  glowMin, glowMax, alertMin, alertMax, blinkMin, blinkMax
+].forEach(el => {
+  el.addEventListener("change", saveSettings);
+});
+
+function resetAllEffects() {
+  document.querySelectorAll("cw-csgo-market-item-card-wrapper, cw-csgo-market-item-card").forEach(c => {
+    c.classList.remove("knife-blink");
+    c.style.boxShadow = "";
   });
+}
 
-  // COIN CONVERTER
-  const COIN_TO_EUR = 0.62;
-  const EUR_TO_SEK  = 10.9087;
-  const coinInputEl = document.getElementById('coinInput');
-  coinInputEl.addEventListener('input', () => {
-    const coins = parseFloat(coinInputEl.value) || 0;
-    const eur   = coins * COIN_TO_EUR;
-    euroOutput.textContent = eur.toFixed(2);
-    sekOutput.textContent  = (eur * EUR_TO_SEK).toFixed(2);
-  });
-})();
-
-
-
-
-document.getElementById("btnInventory")?.addEventListener("click", () => {
-  window.open("https://steamcommunity.com/my/inventory#730", "_blank");
+toggleGlow.addEventListener("change", () => {
+  if (!toggleGlow.checked) {
+    resetAllEffects();
+  }
 });
 
-document.getElementById("btnTrade")?.addEventListener("click", () => {
-  window.open("https://steamcommunity.com/my/tradeoffers/", "_blank");
+toggleBlink.addEventListener("change", () => {
+  if (!toggleBlink.checked) {
+    resetAllEffects();
+  }
 });
 
-document.getElementById("btnApiKey")?.addEventListener("click", () => {
-  window.open("https://store.steampowered.com/pointssummary/ajaxgetasyncconfig", "_blank");
+toggleAlert.addEventListener("change", () => {
+  if (!toggleAlert.checked) {
+    chrome.storage.local.set({ knifeFinderResetAlert: true });
+  }
 });
 
 
 
+// Normalisera strängar så att vi matchar även ogämn text/mellanrum
+function normalize(text) {
+  return text.toLowerCase().replace(/\s+/g, '').trim();
+}
 
-document.getElementById("toggleMisc")?.addEventListener("change", e => {
-  document.getElementById("miscContent")?.classList.toggle("hidden", !e.target.checked);
-});
+// Gör likadant i KnifeFinder.js för att säkra att den hittar rätt
