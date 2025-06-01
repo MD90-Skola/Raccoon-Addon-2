@@ -1,3 +1,52 @@
+
+
+
+
+
+
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+
+
+
+
+
+
+                                       ///////////////////////////////////////////////
+
+// denna är 95% färdig saknas bara kunna lägga till doppler phase 1-4 
+
+
+                                      ///////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
 // KnifeFinder.js – Triggerbaserat, inga loops, inga spams, ljuduppspelning via AudioContext
 
 // Skapa AudioContext och ladda ljudbuffert vid första klick
@@ -148,3 +197,36 @@ chrome.storage.onChanged.addListener((changes, area) => {
   // Applicera filter och effekter
   applyFilterToCards(newCfg);
 });
+
+
+                                       ///////////////////////////////////////////////
+
+// denna är 95% färdig saknas bara kunna lägga till doppler phase 1-4 
+
+
+                                      ///////////////////////////////////////////////
+
+
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //// OK! OK! //
+
+                                     

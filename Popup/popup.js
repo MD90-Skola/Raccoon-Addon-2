@@ -427,12 +427,24 @@ if (typeSelect) {
 
 
 
-// Spara Scout Mode
-document.getElementById("toggle-scout-mode").addEventListener("change", (e) => {
-  chrome.storage.local.set({ scoutmode: e.target.checked });
+document.addEventListener("DOMContentLoaded", () => {
+  chrome.storage.local.get(["scoutmode", "profitcards", "procentviewer"], (result) => {
+    document.getElementById("toggle-scout-mode").checked = result.scoutmode || false;
+    document.getElementById("toggle-profit-potential").checked = result.profitcards || false;
+    document.getElementById("toggle-procent-viewer").checked = result.procentviewer || false;
+  });
 });
 
-// Spara Profit Potential
-document.getElementById("toggle-profit-potential").addEventListener("change", (e) => {
-  chrome.storage.local.set({ profitcards: e.target.checked });
+// Spara till chrome.storage.local när toggles ändras
+
+procentViewerToggle.addEventListener("change", () => {
+  chrome.storage.local.set({ procentviewer: procentViewerToggle.checked });
+});
+
+scoutModeToggle.addEventListener("change", () => {
+  chrome.storage.local.set({ scoutmode: scoutModeToggle.checked });
+});
+
+profitPotentialToggle.addEventListener("change", () => {
+  chrome.storage.local.set({ profitcards: profitPotentialToggle.checked });
 });
