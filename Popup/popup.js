@@ -1,50 +1,52 @@
-// popup.js
-
-// == Knife Dropdown Data ==
+// == Constants and Data Arrays ==
 const knifeTypes = [
-  "Bayonet", "Bowie Knife", "Butterfly Knife", "Classic Knife", "Falchion Knife",
+  "", "Bayonet", "Bowie Knife", "Butterfly Knife", "Classic Knife", "Falchion Knife",
   "Flip Knife", "Ghost Knife", "Gut Knife", "Huntsman Knife", "Karambit", "Kukri Knife",
   "M9 Bayonet", "Navaja Knife", "Nomad Knife", "Paracord Knife", "Skeleton Knife",
   "Stiletto Knife", "Survival Knife", "Talon Knife", "Ursus Knife", "Shadow Daggers"
 ];
 
 const knifeSkins = [
-  "Autotronic", "Black Laminate", "Black Pearl", "Blue Steel", "Case Hardened",
-  "Crimson Web", "Damascus Steel", "Doppler", "Emerald", "Fade", "Freehand", "Gamma",
-  "Lore", "Marble Fade", "Night", "Phase 1", "Phase 2", "Phase 3", "Phase 4", "Ruby",
-  "Rust Coat", "Sapphire", "Slaughter", "Tiger Tooth", "Ultraviolet"
+  "", 
+  "Autotronic", 
+  "Black Laminate", 
+  "Black Pearl", 
+  "Blue Steel", 
+  "Case Hardened",
+  "Crimson Web", 
+  "Damascus Steel", 
+  "Doppler",
+  "Doppler Phase 1",
+  "Doppler Phase 2",
+  "Doppler Phase 3",
+  "Doppler Phase 4",
+  "Emerald", 
+  "Fade", 
+  "Freehand", 
+  "Gamma",
+  "Gamma Doppler Phase 1",
+  "Gamma Doppler Phase 2",
+  "Gamma Doppler Phase 3",
+  "Gamma Doppler Phase 4",
+  "Lore", 
+  "Marble Fade", 
+  "Night", 
+  "Ruby",
+  "Rust Coat", 
+  "Sapphire", 
+  "Slaughter", 
+  "Tiger Tooth", 
+  "Ultraviolet"
 ];
 
-function populateKnifeDropdowns() {
-  const knifeTypeSelect = document.getElementById("knifeType");
-  const knifeSkinSelect = document.getElementById("knifeSkin");
+const SETTINGS_KEY = "knifeFinderSettings";
+const COIN_TO_EUR = 0.62;
+const EUR_TO_SEK = 10.9087;
 
-  if (!knifeTypeSelect || !knifeSkinSelect) {
-    console.warn("Dropdowns för knivar saknas i DOM");
-    return;
-  }
-
-  knifeTypeSelect.innerHTML = '';
-  knifeSkinSelect.innerHTML = '';
-
-  knifeTypes.forEach(type => {
-    const opt = document.createElement("option");
-    opt.value = type;
-    opt.textContent = type;
-    knifeTypeSelect.appendChild(opt);
-  });
-
-  knifeSkins.forEach(skin => {
-    const opt = document.createElement("option");
-    opt.value = skin;
-    opt.textContent = skin;
-    knifeSkinSelect.appendChild(opt);
-  });
-}
-
-// DOM Elements
+// == DOM Element References ==
 const knifeTypeSelect = document.getElementById("knifeType");
 const knifeSkinSelect = document.getElementById("knifeSkin");
+
 const toggleFilter = document.getElementById("toggleFilter");
 const toggleGlow = document.getElementById("ToggleKnifeGlow");
 const toggleAlert = document.getElementById("ToggleKnifeAlert");
@@ -57,16 +59,148 @@ const alertMax = document.getElementById("KnifeAlertPlaceholder2");
 const blinkMin = document.getElementById("KnifeBlinkPlaceholder1");
 const blinkMax = document.getElementById("KnifeBlinkPlaceholder2");
 
-const SETTINGS_KEY = "knifeFinderSettings";
+// Toggles and Boxes (secondary features)
+const procentViewerToggle = document.getElementById("toggle-procent-viewer");
+const scoutModeToggle = document.getElementById("toggle-scout-mode");
+const profitPotentialToggle = document.getElementById("toggle-profit-potential");
+const walletConverterToggle = document.getElementById("toggle-wallet-converter");
+const instaToggle = document.getElementById("toggle-insta");
+const printInfoToggle = document.getElementById("toggle-print-info");
 
-// Vänta tills DOM är redo innan dropdowns fylls
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', populateKnifeDropdowns);
+// Bargain Calculator Elements
+const bargainPrice = document.getElementById("bargainPrice");
+const bargainOrig = document.getElementById("bargainOrig");
+const bargainNew = document.getElementById("bargainNew");
+const bargainNewVal = document.getElementById("bargainNewVal");
+const bargainOrigVal = document.getElementById("bargainOrigVal");
+const bargainNewPrice = document.getElementById("bargainNewPrice");
+const bargainDiff = document.getElementById("bargainDiff");
+
+// Coin Converter Elements
+const coinInput = document.getElementById("coinInput");
+const euroOutput = document.getElementById("euroOutput");
+const sekOutput = document.getElementById("sekOutput");
+
+// Buttons
+const btnInventory = document.getElementById("btnInventory");
+const btnTrade = document.getElementById("btnTrade");
+const btnApiKey = document.getElementById("btnApiKey");
+
+// Additional Population at Bottom
+const typeSelect = document.getElementById("knifeTypeSelect");
+
+// == Utility Functions ==
+function populateKnifeDropdowns() {
+  if (!knifeTypeSelect || !knifeSkinSelect) {
+    console.warn("Dropdowns för knivar saknas i DOM");
+    return;
+  }
+
+  knifeTypeSelect.innerHTML = "";
+  knifeSkinSelect.innerHTML = "";
+
+  knifeTypes.forEach(type => {
+    const opt = document.createElement("option");
+    opt.value = type;
+    // Om värdet är tomt, visa "All Items"
+    opt.textContent = type === "" ? "All Items" : type;
+    knifeTypeSelect.appendChild(opt);
+  });
+
+  knifeSkins.forEach(skin => {
+    const opt = document.createElement("option");
+    opt.value = skin;
+    // Om värdet är tomt, visa "All Skins"
+    opt.textContent = skin === "" ? "All Skins" : skin;
+    knifeSkinSelect.appendChild(opt);
+  });
+}
+
+function normalize(txt) {
+  return txt
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '')   // släng allt utom a–z, 0–9
+    .trim();
+}
+
+
+
+
+
+
+function resetAllEffects() {
+  document.querySelectorAll(
+    "cw-csgo-market-item-card-wrapper, cw-csgo-market-item-card"
+  ).forEach(c => {
+    c.classList.remove("knife-blink");
+    c.style.boxShadow = "";
+  });
+}
+
+
+
+
+function filterItemsBySkin() {
+  const wantWeapon = normalize(knifeTypeSelect.value);   // "" = All Items
+  const wantSkin   = normalize(knifeSkinSelect.value);   // "" = All Skins
+
+  document.querySelectorAll('.market-item').forEach(item => {
+    const nameEl = item.querySelector('label.name-mh');
+    if (!nameEl) return;
+
+    const { weapon, skin } = splitName(nameEl.innerText || '');
+
+    const weaponOK = !wantWeapon || weapon.includes(wantWeapon);
+    const skinOK   = !wantSkin   || skin.includes(wantSkin);
+
+    item.style.display = (weaponOK && skinOK) ? '' : 'none';
+  });
+}
+
+function splitName(raw) {
+  // ★ Bayonet | Gamma Doppler Phase 1  →  { weapon:"bayonet", skin:"gammadopplerphase1" }
+  const parts = raw.replace('★', '').split('|');      // [" Bayonet ", " Gamma Doppler Phase 1"]
+  const weapon = normalize(parts[0] || '');           // "bayonet"
+  const skin   = normalize((parts[1] || parts[0]));   // "gammadopplerphase1"
+  return { weapon, skin };
+}
+
+
+
+
+
+
+
+
+
+
+
+
+function calcBargain() {
+  const list = parseFloat(bargainPrice.value) || 0;
+  const orig = parseFloat(bargainOrig.value) || 0;
+  const neu = parseFloat(bargainNew.value) || 0;
+  const base = list / (1 + orig / 100);
+  const newPrice = base * (1 + neu / 100);
+  const diff = newPrice - list;
+
+  bargainNewVal.textContent = neu.toFixed(1);
+  bargainOrigVal.textContent = orig.toFixed(1);
+  bargainNewPrice.textContent = newPrice.toFixed(2);
+  bargainDiff.textContent = diff.toFixed(2);
+}
+
+// == Initialization on DOM Ready ==
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", populateKnifeDropdowns);
 } else {
   populateKnifeDropdowns();
 }
 
-// Ladda sparade inställningar
+document.addEventListener("DOMContentLoaded", () => {
+
+
+
 chrome.storage.local.get(SETTINGS_KEY, res => {
   const settings = res[SETTINGS_KEY] || {};
 
@@ -82,8 +216,138 @@ chrome.storage.local.get(SETTINGS_KEY, res => {
   alertMax.value = settings.KnifeAlertPlaceholder2 ?? 12;
   blinkMin.value = settings.KnifeBlinkPlaceholder1 ?? -99;
   blinkMax.value = settings.KnifeBlinkPlaceholder2 ?? 12;
+
+  // ✅ Kör filtrering efter att dropdownen fått sitt värde
+  filterItemsBySkin();
 });
 
+
+
+
+
+
+knifeSkinSelect.addEventListener("change", filterItemsBySkin);
+
+
+  // Load saved settings
+  chrome.storage.local.get(SETTINGS_KEY, res => {
+    const settings = res[SETTINGS_KEY] || {};
+
+    knifeTypeSelect.value = settings.knifeType || "";
+    knifeSkinSelect.value = settings.knifeSkin || "";
+    toggleFilter.checked = settings.toggleFilter ?? true;
+    toggleGlow.checked = settings.ToggleKnifeGlow || false;
+    toggleAlert.checked = settings.ToggleKnifeAlert || false;
+    toggleBlink.checked = settings.ToggleKnifeBlink || false;
+    glowMin.value = settings.KnifeGlowPlaceholder1 ?? -99;
+    glowMax.value = settings.KnifeGlowPlaceholder2 ?? 12;
+    alertMin.value = settings.KnifeAlertPlaceholder1 ?? -99;
+    alertMax.value = settings.KnifeAlertPlaceholder2 ?? 12;
+    blinkMin.value = settings.KnifeBlinkPlaceholder1 ?? -99;
+    blinkMax.value = settings.KnifeBlinkPlaceholder2 ?? 12;
+  });
+
+
+
+
+
+  // Secondary feature toggles
+  [
+    ["toggleFilter", "filterBox", "block"],
+    ["toggleCalc", "calcBox", "block"],
+    ["toggleTools", "toolsBox", "grid"],
+    ["toggleInventory", "inventoryBox", "grid"]
+  ].forEach(([t, b, mode]) => {
+    const toggle = document.getElementById(t);
+    const box = document.getElementById(b);
+    if (toggle && box) {
+      toggle.addEventListener("change", e => {
+        box.style.display = e.target.checked ? mode : "none";
+      });
+    }
+  });
+
+  // Percent Viewer Toggle
+  procentViewerToggle.addEventListener("change", () => {
+    if (procentViewerToggle.checked) {
+      console.log("➗  förstoringsglas är PÅ");
+    } else {
+      console.log("➗  förstoringsglas är AV");
+    }
+  });
+
+  // Scout Mode Toggle
+  scoutModeToggle.addEventListener("change", () => {
+    if (scoutModeToggle.checked) {
+      console.log("🔭 Priskoll är PÅ");
+    } else {
+      console.log("🔭 Priskoll är AV");
+    }
+  });
+
+  // Profit Potential Toggle
+  profitPotentialToggle.addEventListener("change", () => {
+    if (profitPotentialToggle.checked) {
+      console.log("📈 Profit Potential är PÅ");
+    } else {
+      console.log("📈 Profit Potential är AV");
+    }
+  });
+
+  // Wallet Converter Toggle
+  walletConverterToggle.addEventListener("change", () => {
+    if (walletConverterToggle.checked) {
+      console.log("💰 Wallet converter är PÅ");
+    } else {
+      console.log("💰 Wallet converter är AV");
+    }
+  });
+
+  // Insta Toggle
+  instaToggle.addEventListener("change", () => {
+    if (instaToggle.checked) {
+      console.log("⚡ Insta är PÅ");
+    } else {
+      console.log("⚡ Insta är AV");
+    }
+  });
+
+  // Print Info Toggle
+  printInfoToggle.addEventListener("change", () => {
+    if (printInfoToggle.checked) {
+      console.log("📷 Print Info är PÅ");
+    } else {
+      console.log("📷 Print Info är AV");
+    }
+  });
+
+  // Bargain Calculator Inputs
+  ["bargainPrice", "bargainOrig", "bargainNew"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener("input", () => {
+        if (id === "bargainOrig") {
+          const v = parseFloat(bargainOrig.value) || 0;
+          bargainNew.value = v;
+        }
+        calcBargain();
+      });
+    }
+  });
+
+  // Coin Converter Input
+  if (coinInput) {
+    coinInput.addEventListener("input", () => {
+      const coins = parseFloat(coinInput.value) || 0;
+      const eur = coins * COIN_TO_EUR;
+      const sek = eur * EUR_TO_SEK;
+      euroOutput.textContent = eur.toFixed(2);
+      sekOutput.textContent = sek.toFixed(2);
+    });
+  }
+});
+
+// == Save and Reset Functions ==
 function saveSettings() {
   const updatedSettings = {
     knifeType: knifeTypeSelect.value,
@@ -103,7 +367,7 @@ function saveSettings() {
   chrome.storage.local.set({ [SETTINGS_KEY]: updatedSettings });
 }
 
-// Event Listeners
+// == Event Listeners for Settings Changes ==
 [
   knifeTypeSelect, knifeSkinSelect,
   toggleFilter, toggleGlow, toggleAlert, toggleBlink,
@@ -112,13 +376,7 @@ function saveSettings() {
   el.addEventListener("change", saveSettings);
 });
 
-function resetAllEffects() {
-  document.querySelectorAll("cw-csgo-market-item-card-wrapper, cw-csgo-market-item-card").forEach(c => {
-    c.classList.remove("knife-blink");
-    c.style.boxShadow = "";
-  });
-}
-
+// Reset effects when toggles are turned off
 toggleGlow.addEventListener("change", () => {
   if (!toggleGlow.checked) {
     resetAllEffects();
@@ -137,155 +395,44 @@ toggleAlert.addEventListener("change", () => {
   }
 });
 
-
-
-// Normalisera strängar så att vi matchar även ogämn text/mellanrum
-function normalize(text) {
-  return text.toLowerCase().replace(/\s+/g, '').trim();
-}
-
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Hitta varje checkbox by its ID
-  const procentViewerToggle = document.getElementById('toggle-procent-viewer');
-  const scoutModeToggle = document.getElementById('toggle-scout-mode');
-  const profitPotentialToggle = document.getElementById('toggle-profit-potential');
-  const walletConverterToggle = document.getElementById('toggle-wallet-converter');
-  const instaToggle = document.getElementById('toggle-insta');
-  const printInfoToggle = document.getElementById('toggle-print-info');
-  
-  // Exempel: lägg på varsin change-lyssnare
-  procentViewerToggle.addEventListener('change', () => {
-    if (procentViewerToggle.checked) {
-      console.log('➗  förstoringsglas är PÅ');
-    } else {
-      console.log('➗  förstoringsglas är AV');
-    }
-  });
-  
-  scoutModeToggle.addEventListener('change', () => {
-    if (scoutModeToggle.checked) {
-      console.log('🔭 Priskoll är PÅ');
-    } else {
-      console.log('🔭 Priskoll är AV');
-    }
-  });
-  
-  profitPotentialToggle.addEventListener('change', () => {
-    if (profitPotentialToggle.checked) {
-      console.log('📈 Profit Potential är PÅ');
-    } else {
-      console.log('📈 Profit Potential är AV');
-    }
-  });
-  
-  walletConverterToggle.addEventListener('change', () => {
-    if (walletConverterToggle.checked) {
-      console.log('💰 Wallet converter är PÅ');
-    } else {
-      console.log('💰 Wallet converter är AV');
-    }
-  });
-  
-  instaToggle.addEventListener('change', () => {
-    if (instaToggle.checked) {
-      console.log('⚡ Insta är PÅ');
-    } else {
-      console.log('⚡ Insta är AV');
-    }
-  });
-  
-  printInfoToggle.addEventListener('change', () => {
-    if (printInfoToggle.checked) {
-      console.log('📷 Print Info är PÅ');
-    } else {
-      console.log('📷 Print Info är AV');
-    }
-  });
-});
-
-// Exempel: lägg på varsin change-lyssnare
-
-document.addEventListener('DOMContentLoaded', () => {
-  // ===== Toggle helpers =====
-  [['toggleFilter','filterBox','block'],['toggleCalc','calcBox','block'],['toggleTools','toolsBox','grid'],['toggleInventory','inventoryBox','grid']].forEach(([t,b,mode])=>{
-    const toggle = document.getElementById(t);
-    const box = document.getElementById(b);
-    if (toggle && box) {
-      toggle.addEventListener('change',e=>{
-        box.style.display = e.target.checked ? mode : 'none';
-      });
-    }
-  });
-// ===== Toggle helpers =====
-  // ===== Bargain Calculator =====
-  const bargainPrice     = document.getElementById('bargainPrice');
-  const bargainOrig      = document.getElementById('bargainOrig');
-  const bargainNew       = document.getElementById('bargainNew');
-  const bargainNewVal    = document.getElementById('bargainNewVal');
-  const bargainOrigVal   = document.getElementById('bargainOrigVal');
-  const bargainNewPrice  = document.getElementById('bargainNewPrice');
-  const bargainDiff      = document.getElementById('bargainDiff');
-
-  ['bargainPrice','bargainOrig','bargainNew'].forEach(id=>{
-    const el = document.getElementById(id);
-    if (el) {
-      el.addEventListener('input',()=>{
-        if(id==='bargainOrig'){
-          const v=parseFloat(bargainOrig.value)||0;
-          bargainNew.value=v;
-        }
-        calcBargain();
-      });
-    }
-  });
-
-  function calcBargain(){
-    const list = parseFloat(bargainPrice.value)||0;
-    const orig = parseFloat(bargainOrig.value)||0;
-    const neu  = parseFloat(bargainNew.value)||0;
-    const base = list / (1 + orig/100);
-    const newPrice = base * (1 + neu/100);
-    const diff = newPrice - list;
-    bargainNewVal.textContent  = neu.toFixed(1);
-    bargainOrigVal.textContent = orig.toFixed(1);
-    bargainNewPrice.textContent = newPrice.toFixed(2);
-    bargainDiff.textContent     = diff.toFixed(2);
-  }
-// ===== Bargain Calculator =====
-  // ===== Coin Converter =====
-  const COIN_TO_EUR = 0.62;
-  const EUR_TO_SEK  = 10.9087;
-
-  const coinInput   = document.getElementById('coinInput');
-  const euroOutput  = document.getElementById('euroOutput');
-  const sekOutput   = document.getElementById('sekOutput');
-
-  if (coinInput) {
-    coinInput.addEventListener('input', () => {
-      const coins = parseFloat(coinInput.value)||0;
-      const eur   = coins * COIN_TO_EUR;
-      const sek   = eur * EUR_TO_SEK;
-      euroOutput.textContent = eur.toFixed(2);
-      sekOutput.textContent  = sek.toFixed(2);
-    });
-  }
-});
- // ===== Coin Converter =====
-// ===== Buttons =====
-
-
-document.getElementById("btnInventory")?.addEventListener("click", () => {
+// == Button Click Handlers ==
+btnInventory?.addEventListener("click", () => {
   window.open("https://steamcommunity.com/my/inventory#730", "_blank");
 });
 
-document.getElementById("btnTrade")?.addEventListener("click", () => {
+btnTrade?.addEventListener("click", () => {
   window.open("https://steamcommunity.com/my/tradeoffers/", "_blank");
 });
 
-document.getElementById("btnApiKey")?.addEventListener("click", () => {
+btnApiKey?.addEventListener("click", () => {
   window.open("https://store.steampowered.com/pointssummary/ajaxgetasyncconfig", "_blank");
 });
 
+// == Bottom Population Script for knifeTypeSelect ==
+if (typeSelect) {
+  const allOption = document.createElement("option");
+  allOption.value = "";
+  allOption.textContent = "All Items";
+  typeSelect.appendChild(allOption);
 
-// ===== Coin Converter =====
+  knifeTypes.forEach(type => {
+    const opt = document.createElement("option");
+    opt.value = type;
+    opt.textContent = type;
+    typeSelect.appendChild(opt);
+  });
+}
+
+// Note: ALL ITEMS SCRIPT till knivmod får vänta me denna
+
+
+
+// Spara Scout Mode
+document.getElementById("toggle-scout-mode").addEventListener("change", (e) => {
+  chrome.storage.local.set({ scoutmode: e.target.checked });
+});
+
+// Spara Profit Potential
+document.getElementById("toggle-profit-potential").addEventListener("change", (e) => {
+  chrome.storage.local.set({ profitcards: e.target.checked });
+});

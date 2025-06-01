@@ -19,12 +19,17 @@
     "default_icon": {}
   },
   "content_scripts": [
-    {
-      "matches": ["https://www.csgoroll.com/*"],
-      "js": ["Functions/KnifeFinder.js"],
-      "run_at": "document_idle"
-    }
-  ],
+  {
+    "matches": ["https://*.csgoroll.com/*"],
+    "js": [
+      "functions/KnifeFinder.js",
+      "functions/Vinstmarginal.js",
+      "functions/Magnifer.js"
+    ],
+    "run_at": "document_idle"
+  }
+]
+,
   "web_accessible_resources": [
     "Assets/trade.mp3"
   ]
