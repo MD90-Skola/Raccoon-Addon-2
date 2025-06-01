@@ -204,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-
+// Exempel: lägg på varsin change-lyssnare
 
 document.addEventListener('DOMContentLoaded', () => {
   // ===== Toggle helpers =====
@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   });
-
+// ===== Toggle helpers =====
   // ===== Bargain Calculator =====
   const bargainPrice     = document.getElementById('bargainPrice');
   const bargainOrig      = document.getElementById('bargainOrig');
@@ -252,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
     bargainNewPrice.textContent = newPrice.toFixed(2);
     bargainDiff.textContent     = diff.toFixed(2);
   }
-
+// ===== Bargain Calculator =====
   // ===== Coin Converter =====
   const COIN_TO_EUR = 0.62;
   const EUR_TO_SEK  = 10.9087;
@@ -271,3 +271,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+ // ===== Coin Converter =====
+// ===== Buttons =====
+
+
+document.getElementById("btnInventory")?.addEventListener("click", () => {
+  window.open("https://steamcommunity.com/my/inventory#730", "_blank");
+});
+
+document.getElementById("btnTrade")?.addEventListener("click", () => {
+  window.open("https://steamcommunity.com/my/tradeoffers/", "_blank");
+});
+
+document.getElementById("btnApiKey")?.addEventListener("click", () => {
+  window.open("https://store.steampowered.com/pointssummary/ajaxgetasyncconfig", "_blank");
+});
+
+
+// ===== Coin Converter =====
