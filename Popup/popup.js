@@ -144,4 +144,130 @@ function normalize(text) {
   return text.toLowerCase().replace(/\s+/g, '').trim();
 }
 
-// Gör likadant i KnifeFinder.js för att säkra att den hittar rätt
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Hitta varje checkbox by its ID
+  const procentViewerToggle = document.getElementById('toggle-procent-viewer');
+  const scoutModeToggle = document.getElementById('toggle-scout-mode');
+  const profitPotentialToggle = document.getElementById('toggle-profit-potential');
+  const walletConverterToggle = document.getElementById('toggle-wallet-converter');
+  const instaToggle = document.getElementById('toggle-insta');
+  const printInfoToggle = document.getElementById('toggle-print-info');
+  
+  // Exempel: lägg på varsin change-lyssnare
+  procentViewerToggle.addEventListener('change', () => {
+    if (procentViewerToggle.checked) {
+      console.log('➗  förstoringsglas är PÅ');
+    } else {
+      console.log('➗  förstoringsglas är AV');
+    }
+  });
+  
+  scoutModeToggle.addEventListener('change', () => {
+    if (scoutModeToggle.checked) {
+      console.log('🔭 Priskoll är PÅ');
+    } else {
+      console.log('🔭 Priskoll är AV');
+    }
+  });
+  
+  profitPotentialToggle.addEventListener('change', () => {
+    if (profitPotentialToggle.checked) {
+      console.log('📈 Profit Potential är PÅ');
+    } else {
+      console.log('📈 Profit Potential är AV');
+    }
+  });
+  
+  walletConverterToggle.addEventListener('change', () => {
+    if (walletConverterToggle.checked) {
+      console.log('💰 Wallet converter är PÅ');
+    } else {
+      console.log('💰 Wallet converter är AV');
+    }
+  });
+  
+  instaToggle.addEventListener('change', () => {
+    if (instaToggle.checked) {
+      console.log('⚡ Insta är PÅ');
+    } else {
+      console.log('⚡ Insta är AV');
+    }
+  });
+  
+  printInfoToggle.addEventListener('change', () => {
+    if (printInfoToggle.checked) {
+      console.log('📷 Print Info är PÅ');
+    } else {
+      console.log('📷 Print Info är AV');
+    }
+  });
+});
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  // ===== Toggle helpers =====
+  [['toggleFilter','filterBox','block'],['toggleCalc','calcBox','block'],['toggleTools','toolsBox','grid'],['toggleInventory','inventoryBox','grid']].forEach(([t,b,mode])=>{
+    const toggle = document.getElementById(t);
+    const box = document.getElementById(b);
+    if (toggle && box) {
+      toggle.addEventListener('change',e=>{
+        box.style.display = e.target.checked ? mode : 'none';
+      });
+    }
+  });
+
+  // ===== Bargain Calculator =====
+  const bargainPrice     = document.getElementById('bargainPrice');
+  const bargainOrig      = document.getElementById('bargainOrig');
+  const bargainNew       = document.getElementById('bargainNew');
+  const bargainNewVal    = document.getElementById('bargainNewVal');
+  const bargainOrigVal   = document.getElementById('bargainOrigVal');
+  const bargainNewPrice  = document.getElementById('bargainNewPrice');
+  const bargainDiff      = document.getElementById('bargainDiff');
+
+  ['bargainPrice','bargainOrig','bargainNew'].forEach(id=>{
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input',()=>{
+        if(id==='bargainOrig'){
+          const v=parseFloat(bargainOrig.value)||0;
+          bargainNew.value=v;
+        }
+        calcBargain();
+      });
+    }
+  });
+
+  function calcBargain(){
+    const list = parseFloat(bargainPrice.value)||0;
+    const orig = parseFloat(bargainOrig.value)||0;
+    const neu  = parseFloat(bargainNew.value)||0;
+    const base = list / (1 + orig/100);
+    const newPrice = base * (1 + neu/100);
+    const diff = newPrice - list;
+    bargainNewVal.textContent  = neu.toFixed(1);
+    bargainOrigVal.textContent = orig.toFixed(1);
+    bargainNewPrice.textContent = newPrice.toFixed(2);
+    bargainDiff.textContent     = diff.toFixed(2);
+  }
+
+  // ===== Coin Converter =====
+  const COIN_TO_EUR = 0.62;
+  const EUR_TO_SEK  = 10.9087;
+
+  const coinInput   = document.getElementById('coinInput');
+  const euroOutput  = document.getElementById('euroOutput');
+  const sekOutput   = document.getElementById('sekOutput');
+
+  if (coinInput) {
+    coinInput.addEventListener('input', () => {
+      const coins = parseFloat(coinInput.value)||0;
+      const eur   = coins * COIN_TO_EUR;
+      const sek   = eur * EUR_TO_SEK;
+      euroOutput.textContent = eur.toFixed(2);
+      sekOutput.textContent  = sek.toFixed(2);
+    });
+  }
+});
