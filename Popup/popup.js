@@ -426,13 +426,56 @@ if (typeSelect) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // TRIGGERS TILL BUTTONS ON / OFF
 // TRIGGERS TILL BUTTONS ON / OFF
-// TRIGGERS TILL BUTTONS ON / OFF
+// ==============================
+// ✅ TRIGGERS – TOGGLE ON/OFF
+// ==============================
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Ladda alla toggle-värden
-  chrome.storage.local.get(["scoutmode", "profitcards", "procent", "converter", "insta", "printinfo"], (result) => {
+
+  // ==============================
+  // 🔁 Ladda sparade toggle-värden
+  // ==============================
+  chrome.storage.local.get([
+    "scoutmode",
+    "profitcards",
+    "procent",
+    "converter",
+    "insta",
+    "printinfo"
+  ], (result) => {
     document.getElementById("toggle-scout-mode").checked = result.scoutmode || false;
     document.getElementById("toggle-profit-potential").checked = result.profitcards || false;
     document.getElementById("toggle-procent-viewer").checked = result.procent || false;
@@ -441,33 +484,114 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("toggle-print-info").checked = result.printinfo || false;
   });
 
-  // Alla toggle-triggers
+  // ==============================
+  // 🧩 TOOL BLOCKS – SEKTIONER
+  // ==============================
+
+// 1. User / Tutorial / Info
+const toggleMisc = document.getElementById("toggleMisc");
+const miscContent = document.getElementById("miscContent");
+
+if (toggleMisc && miscContent) {
+  // När användaren klickar på knappen
+  toggleMisc.addEventListener("change", (e) => {
+    const checked = e.target.checked;
+    console.log("Tutorial/Info togglad:", checked); // 🔍 Testlogg
+    miscContent.style.display = checked ? "block" : "none";
+  });
+
+  // Visa rätt läge direkt vid start
+  miscContent.style.display = toggleMisc.checked ? "block" : "none";
+} else {
+  console.log("❌ toggleMisc eller miscContent hittades inte");
+}
+
+
+  // 2. Item Finder
+  const toggleFilter = document.getElementById("toggleFilter");
+  const filterBox = document.getElementById("filterBox");
+
+  if (toggleFilter && filterBox) {
+    toggleFilter.addEventListener("change", (e) => {
+      filterBox.style.display = e.target.checked ? "block" : "none";
+    });
+    filterBox.style.display = toggleFilter.checked ? "block" : "none";
+  }
+
+  // 3. Kalkylatorn
+  const toggleCalc = document.getElementById("toggleCalc");
+  const calcBox = document.getElementById("calcBox");
+
+  if (toggleCalc && calcBox) {
+    toggleCalc.addEventListener("change", (e) => {
+      calcBox.style.display = e.target.checked ? "block" : "none";
+    });
+    calcBox.style.display = toggleCalc.checked ? "block" : "none";
+  }
+
+  // 4. Options
+  const toggleGlowOpts = document.getElementById("toggleGlowOpts");
+  const glowOptionsBox = document.getElementById("glowOptionsBox");
+
+  if (toggleGlowOpts && glowOptionsBox) {
+    toggleGlowOpts.addEventListener("change", (e) => {
+      glowOptionsBox.style.display = e.target.checked ? "block" : "none";
+    });
+    glowOptionsBox.style.display = toggleGlowOpts.checked ? "block" : "none";
+  }
+
+  // 5. Inventory box (Footer / Admin-user block)
+  const toggleInventory = document.getElementById("toggleInventory");
+  const inventoryBox = document.getElementById("inventoryBox");
+
+  if (toggleInventory && inventoryBox) {
+    toggleInventory.addEventListener("change", (e) => {
+      inventoryBox.style.display = e.target.checked ? "grid" : "none";
+    });
+    inventoryBox.style.display = toggleInventory.checked ? "grid" : "none";
+  }
+
+  // ==============================
+  // ⚙️ OPTIONSTRIGGERS
+  // ==============================
+
+  // 1. Procent Viewer
+  procentViewerToggle.addEventListener("change", () => {
+    chrome.storage.local.set({ procent: procentViewerToggle.checked });
+  });
+
+  // 2. Scout mode
   scoutModeToggle.addEventListener("change", () => {
     chrome.storage.local.set({ scoutmode: scoutModeToggle.checked });
   });
 
+  // 3. Profit Potential
   profitPotentialToggle.addEventListener("change", () => {
     chrome.storage.local.set({ profitcards: profitPotentialToggle.checked });
   });
 
+  // 4. Wallet Converter
   walletConverterToggle.addEventListener("change", () => {
     chrome.storage.local.set({ converter: walletConverterToggle.checked });
   });
 
+  // 5. Insta
   instaToggle.addEventListener("change", () => {
     chrome.storage.local.set({ insta: instaToggle.checked });
   });
 
+  // 6. Print Info
   printInfoToggle.addEventListener("change", () => {
     chrome.storage.local.set({ printinfo: printInfoToggle.checked });
   });
 
-  procentViewerToggle.addEventListener("change", () => {
-    chrome.storage.local.set({ procent: procentViewerToggle.checked });
-  });
 });
 
-// Reagera på lagrade ändringar
+
+// ==============================
+// 🔄 REAKTION PÅ LAGRADE ÄNDRINGAR
+// ==============================
+
 chrome.storage.onChanged.addListener((changes) => {
   if (changes.procent) {
     window.procent_active = changes.procent.newValue;
@@ -496,9 +620,6 @@ chrome.storage.onChanged.addListener((changes) => {
   }
 });
 
-
-// TRIGGERS TILL BUTTONS ON / OFF
-// TRIGGERS TILL BUTTONS ON / OFF
 // TRIGGERS TILL BUTTONS ON / OFF
 
 // vilken vecka
