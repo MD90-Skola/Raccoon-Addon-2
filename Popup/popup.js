@@ -501,6 +501,24 @@ chrome.storage.onChanged.addListener((changes) => {
 // TRIGGERS TILL BUTTONS ON / OFF
 // TRIGGERS TILL BUTTONS ON / OFF
 
+// vilken vecka
 
+function getCurrentWeekNumber() {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 1);
+  const dayMs = 86400000;
+  const day = ((now - start + ((start.getDay() + 6) % 7) * dayMs) / dayMs);
+  return Math.ceil(day / 7);
+}
 
+function updateWeekInPopup() {
+  const label = document.getElementById("veckonummer");
+  if (label) {
+    label.textContent = `Vecka: ${getCurrentWeekNumber()}`;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", updateWeekInPopup);
+
+// vilken vecka
 

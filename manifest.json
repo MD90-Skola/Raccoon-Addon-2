@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Raccoon Tool PRO",
   "version": "2.4",
-  "description": "🦝 Super Roll Tool för CSGORoll",
+  "description": "🦝Steam prices and color correction",
 
   "host_permissions": [
     "https://api.allorigins.win/*"
