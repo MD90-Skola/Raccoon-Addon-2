@@ -1,3 +1,10 @@
+// == Ikon-URL:er för procent.js ==
+const sverigeIconURL = chrome.runtime.getURL("Assets/sverige.png");
+const euroIconURL = chrome.runtime.getURL("Assets/euro.png");
+
+
+
+
 let balanceBox = null;
 
 function formatCurrency(value, suffix) {
@@ -47,16 +54,17 @@ function updateBalanceInfo() {
     document.body.appendChild(balanceBox);
   }
 
-  balanceBox.innerHTML = `
-    <div style="display: flex; align-items: center; gap: 8px;">
-      <img src="${chrome.runtime.getURL('assets/euro.png')}" width="18" height="18" />
-      <span>${euroText}</span>
-    </div>
-    <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
-      <img src="${chrome.runtime.getURL('assets/sverige.png')}" width="18" height="18" />
-      <span>${sekText}</span>
-    </div>
-  `;
+balanceBox.innerHTML = `
+  <div style="display: flex; align-items: center; gap: 8px;">
+    <img src="${euroIconURL}" width="18" height="18" />
+    <span>${euroText}</span>
+  </div>
+  <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
+    <img src="${sverigeIconURL}" width="18" height="18" />
+    <span>${sekText}</span>
+  </div>
+`;
+
 
   const rect = walletEl.getBoundingClientRect();
   balanceBox.style.left = `${rect.left}px`;

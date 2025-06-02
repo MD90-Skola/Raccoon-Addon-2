@@ -1,5 +1,6 @@
 window.procent_active = false;
 
+
 chrome.storage.local.get("procent", res => {
   window.procent_active = res.procent || false;
   console.log("INIT - procent_active:", window.procent_active);

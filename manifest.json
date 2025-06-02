@@ -40,7 +40,7 @@
 
   "web_accessible_resources": [
     {
-      "resources": ["Assets/trade.mp3"],
+      "resources": ["Assets/trade.mp3", "Assets/*.png"],
       "matches": ["https://*.csgoroll.com/*"]
     }
   ]
