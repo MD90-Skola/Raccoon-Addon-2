@@ -27,9 +27,12 @@
     {
       "matches": ["*://*.csgoroll.com/*"],
       "js": [
-        "functions/KnifeFinder.js",
+        "functions/KnifeFinder.js", 
         "functions/Vinstmarginal.js",
+        "functions/procent.js",
+        "functions/converter.js",
         "functions/SteamPrices.js"
+
       ],
       "run_at": "document_idle"
     }

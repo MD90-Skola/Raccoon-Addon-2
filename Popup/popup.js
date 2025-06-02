@@ -423,28 +423,84 @@ if (typeSelect) {
   });
 }
 
-// Note: ALL ITEMS SCRIPT till knivmod får vänta me denna
 
 
+
+// TRIGGERS TILL BUTTONS ON / OFF
+// TRIGGERS TILL BUTTONS ON / OFF
+// TRIGGERS TILL BUTTONS ON / OFF
 
 document.addEventListener("DOMContentLoaded", () => {
-  chrome.storage.local.get(["scoutmode", "profitcards", "procentviewer"], (result) => {
+  // Ladda alla toggle-värden
+  chrome.storage.local.get(["scoutmode", "profitcards", "procent", "converter", "insta", "printinfo"], (result) => {
     document.getElementById("toggle-scout-mode").checked = result.scoutmode || false;
     document.getElementById("toggle-profit-potential").checked = result.profitcards || false;
-    document.getElementById("toggle-procent-viewer").checked = result.procentviewer || false;
+    document.getElementById("toggle-procent-viewer").checked = result.procent || false;
+    document.getElementById("toggle-wallet-converter").checked = result.converter || false;
+    document.getElementById("toggle-insta").checked = result.insta || false;
+    document.getElementById("toggle-print-info").checked = result.printinfo || false;
+  });
+
+  // Alla toggle-triggers
+  scoutModeToggle.addEventListener("change", () => {
+    chrome.storage.local.set({ scoutmode: scoutModeToggle.checked });
+  });
+
+  profitPotentialToggle.addEventListener("change", () => {
+    chrome.storage.local.set({ profitcards: profitPotentialToggle.checked });
+  });
+
+  walletConverterToggle.addEventListener("change", () => {
+    chrome.storage.local.set({ converter: walletConverterToggle.checked });
+  });
+
+  instaToggle.addEventListener("change", () => {
+    chrome.storage.local.set({ insta: instaToggle.checked });
+  });
+
+  printInfoToggle.addEventListener("change", () => {
+    chrome.storage.local.set({ printinfo: printInfoToggle.checked });
+  });
+
+  procentViewerToggle.addEventListener("change", () => {
+    chrome.storage.local.set({ procent: procentViewerToggle.checked });
   });
 });
 
-// Spara till chrome.storage.local när toggles ändras
+// Reagera på lagrade ändringar
+chrome.storage.onChanged.addListener((changes) => {
+  if (changes.procent) {
+    window.procent_active = changes.procent.newValue;
+    if (window.procent_active && typeof initProcentViewer === "function") {
+      initProcentViewer();
+    }
+  }
 
-procentViewerToggle.addEventListener("change", () => {
-  chrome.storage.local.set({ procentviewer: procentViewerToggle.checked });
+  if (changes.converter) {
+    window.converter_active = changes.converter.newValue;
+    if (window.converter_active && typeof updateBalanceInfo === "function") {
+      updateBalanceInfo();
+    } else if (!window.converter_active && typeof removeBalanceBox === "function") {
+      removeBalanceBox();
+    }
+  }
+
+  if (changes.insta && typeof handleInstaToggle === "function") {
+    window.insta_active = changes.insta.newValue;
+    handleInstaToggle(window.insta_active);
+  }
+
+  if (changes.printinfo && typeof handlePrintInfo === "function") {
+    window.printinfo_active = changes.printinfo.newValue;
+    handlePrintInfo(window.printinfo_active);
+  }
 });
 
-scoutModeToggle.addEventListener("change", () => {
-  chrome.storage.local.set({ scoutmode: scoutModeToggle.checked });
-});
 
-profitPotentialToggle.addEventListener("change", () => {
-  chrome.storage.local.set({ profitcards: profitPotentialToggle.checked });
-});
+// TRIGGERS TILL BUTTONS ON / OFF
+// TRIGGERS TILL BUTTONS ON / OFF
+// TRIGGERS TILL BUTTONS ON / OFF
+
+
+
+
