@@ -2,16 +2,12 @@
 const sverigeIconURL = chrome.runtime.getURL("Assets/sverige.png");
 const euroIconURL = chrome.runtime.getURL("Assets/euro.png");
 
-
-
-
 let balanceBox = null;
 
 function formatCurrency(value, suffix) {
   const rounded = Math.round(value * 100) / 100;
   return `${rounded.toLocaleString("sv-SE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${suffix}`;
 }
-
 
 function updateBalanceInfo() {
   if (!window.converter_active) return;
@@ -23,12 +19,14 @@ function updateBalanceInfo() {
   const match = rawText.match(/([\d.,]+)/);
   if (!match) return;
 
-  const cleanedText = match[1].replace(/\s/g, '').replace(',', '.');
+  // Fixa parsing för tusentals-separator
+  const cleanedText = match[1].replace(/,/g, ''); // Ta bort alla komman (tusentals-separator)
   const coins = parseFloat(cleanedText);
   if (isNaN(coins)) return;
 
+  // Uppdaterade växelkurser (juni 2025)
   const euro = coins * 0.6143;
-  const sek = euro * 10.9;
+  const sek = euro * 10.94; // Uppdaterad växelkurs
 
   const euroText = formatCurrency(euro, "Euro");
   const sekText = formatCurrency(sek, "SEK");
@@ -54,17 +52,16 @@ function updateBalanceInfo() {
     document.body.appendChild(balanceBox);
   }
 
-balanceBox.innerHTML = `
-  <div style="display: flex; align-items: center; gap: 8px;">
-    <img src="${euroIconURL}" width="18" height="18" />
-    <span>${euroText}</span>
-  </div>
-  <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
-    <img src="${sverigeIconURL}" width="18" height="18" />
-    <span>${sekText}</span>
-  </div>
-`;
-
+  balanceBox.innerHTML = `
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <img src="${euroIconURL}" width="18" height="18" />
+      <span>${euroText}</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
+      <img src="${sverigeIconURL}" width="18" height="18" />
+      <span>${sekText}</span>
+    </div>
+  `;
 
   const rect = walletEl.getBoundingClientRect();
   balanceBox.style.left = `${rect.left}px`;
