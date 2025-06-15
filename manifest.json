@@ -12,6 +12,7 @@
     "storage",
     "activeTab",        
     "scripting",
+    "contextMenus",
     "clipboardWrite"
   ],
 
@@ -31,7 +32,8 @@
         "functions/Vinstmarginal.js",
         "functions/procent.js",
         "functions/converter.js",
-        "functions/exelconverter.js",
+        "functions/exelconverter.js", 
+        "functions/InstaPrice.js",  
         "functions/SteamPrices.js"
 
       ],

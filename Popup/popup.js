@@ -575,7 +575,7 @@ if (toggleMisc && miscContent) {
     chrome.storage.local.set({ converter: walletConverterToggle.checked });
   });
 
-  // 5. Insta
+  // 5. Insta Price
   instaToggle.addEventListener("change", () => {
     chrome.storage.local.set({ insta: instaToggle.checked });
   });
@@ -642,4 +642,12 @@ function updateWeekInPopup() {
 document.addEventListener("DOMContentLoaded", updateWeekInPopup);
 
 // vilken vecka
+// INSTA FINER
+instaToggle.addEventListener("change", () => {
+  const enabled = instaToggle.checked;
+  chrome.storage.local.set({ insta: enabled });
 
+  chrome.runtime.sendMessage({
+    action: enabled ? "enableContextMenu" : "disableContextMenu"
+  });
+});

@@ -6,10 +6,10 @@ function initAudio() {
   if (!audioContext) {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
     fetch(chrome.runtime.getURL('Assets/trade.mp3'))
-      .then(response => response.arrayBuffer())
-      .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-      .then(buffer => { audioBuffer = buffer; })
-      .catch(err => console.warn("🔇 Kunde inte ladda ljudbuffert:", err));
+        .then(response => response.arrayBuffer())
+        .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+        .then(buffer => { audioBuffer = buffer; })
+        .catch(err => console.warn("🔇 Kunde inte ladda ljudbuffert:", err));
   }
   if (audioContext.state === 'suspended') {
     audioContext.resume().catch(() => {});
@@ -71,21 +71,18 @@ function applyFilterToSingleCard(card, cfg) {
   if (filterKnife && !knifeName.includes(filterKnife)) return;
   if (filterSkin && !skinName.includes(filterSkin)) return;
 
-  // Hitta procentsats och behandla 0 som “ingen data”  ← Här är den viktiga förändringen
+  // Hitta procentsats - nu behandla 0 som giltigt värde och null/inget värde som 0
   const pctMatch = text.match(/([+\-]?\d+\.?\d*)%/);
-  let pct = NaN;
+  let pct = 0; // Standard värde är 0 (både för null och inget värde)
 
   if (pctMatch) {
     const parsed = parseFloat(pctMatch[1]);
-    if (parsed === 0) {
-      // Om värdet är exakt 0, tolka som “ingen data” och hoppa över kortet
-      return;
+    if (!isNaN(parsed)) {
+      pct = parsed; // Använd det faktiska värdet, inklusive 0
     }
-    pct = parsed;
-  } else {
-    // Hittade ingen procentsats alls (inget värde) → hoppa över
-    return;
+    // Om parsed är NaN, behåll pct som 0
   }
+  // Om ingen procentsats hittades alls, använd standardvärdet 0
 
   // Nollställ tidigare effekter
   card.style.boxShadow = '';
@@ -93,25 +90,25 @@ function applyFilterToSingleCard(card, cfg) {
 
   // Applicera Glow
   if (
-    cfg.ToggleKnifeGlow &&
-    pct >= cfg.KnifeGlowPlaceholder1 &&
-    pct <= cfg.KnifeGlowPlaceholder2
+      cfg.ToggleKnifeGlow &&
+      pct >= cfg.KnifeGlowPlaceholder1 &&
+      pct <= cfg.KnifeGlowPlaceholder2
   ) {
     card.style.boxShadow = '0 0 20px 4px limegreen';
   }
   // Applicera Blink
   if (
-    cfg.ToggleKnifeBlink &&
-    pct >= cfg.KnifeBlinkPlaceholder1 &&
-    pct <= cfg.KnifeBlinkPlaceholder2
+      cfg.ToggleKnifeBlink &&
+      pct >= cfg.KnifeBlinkPlaceholder1 &&
+      pct <= cfg.KnifeBlinkPlaceholder2
   ) {
     card.classList.add('knife-blink');
   }
   // Applicera Alert
   if (
-    cfg.ToggleKnifeAlert &&
-    pct >= cfg.KnifeAlertPlaceholder1 &&
-    pct <= cfg.KnifeAlertPlaceholder2
+      cfg.ToggleKnifeAlert &&
+      pct >= cfg.KnifeAlertPlaceholder1 &&
+      pct <= cfg.KnifeAlertPlaceholder2
   ) {
     if (!alertedCards.has(card)) {
       playAlertSound();
@@ -149,9 +146,9 @@ function observeNewCards(cfg) {
       mutation.addedNodes.forEach(node => {
         if (!(node instanceof HTMLElement)) return;
         if (
-          node.matches &&
-          (node.matches('cw-csgo-market-item-card-wrapper') ||
-           node.matches('cw-csgo-market-item-card'))
+            node.matches &&
+            (node.matches('cw-csgo-market-item-card-wrapper') ||
+                node.matches('cw-csgo-market-item-card'))
         ) {
           applyFilterToSingleCard(node, cfg);
         }
@@ -182,43 +179,43 @@ chrome.storage.onChanged.addListener((changes, area) => {
   const newCfg = changes[SETTINGS_KEY].newValue || {};
 
   const filterChanged =
-    oldCfg.knifeType !== newCfg.knifeType ||
-    oldCfg.knifeSkin !== newCfg.knifeSkin;
+      oldCfg.knifeType !== newCfg.knifeType ||
+      oldCfg.knifeSkin !== newCfg.knifeSkin;
   const glowToggleChanged = oldCfg.ToggleKnifeGlow !== newCfg.ToggleKnifeGlow;
   const blinkToggleChanged = oldCfg.ToggleKnifeBlink !== newCfg.ToggleKnifeBlink;
   const alertToggleChanged = oldCfg.ToggleKnifeAlert !== newCfg.ToggleKnifeAlert;
   const glowRangeChanged =
-    oldCfg.KnifeGlowPlaceholder1 !== newCfg.KnifeGlowPlaceholder1 ||
-    oldCfg.KnifeGlowPlaceholder2 !== newCfg.KnifeGlowPlaceholder2;
+      oldCfg.KnifeGlowPlaceholder1 !== newCfg.KnifeGlowPlaceholder1 ||
+      oldCfg.KnifeGlowPlaceholder2 !== newCfg.KnifeGlowPlaceholder2;
   const blinkRangeChanged =
-    oldCfg.KnifeBlinkPlaceholder1 !== newCfg.KnifeBlinkPlaceholder1 ||
-    oldCfg.KnifeBlinkPlaceholder2 !== newCfg.KnifeBlinkPlaceholder2;
+      oldCfg.KnifeBlinkPlaceholder1 !== newCfg.KnifeBlinkPlaceholder1 ||
+      oldCfg.KnifeBlinkPlaceholder2 !== newCfg.KnifeBlinkPlaceholder2;
   const alertRangeChanged =
-    oldCfg.KnifeAlertPlaceholder1 !== newCfg.KnifeAlertPlaceholder1 ||
-    oldCfg.KnifeAlertPlaceholder2 !== newCfg.KnifeAlertPlaceholder2;
+      oldCfg.KnifeAlertPlaceholder1 !== newCfg.KnifeAlertPlaceholder1 ||
+      oldCfg.KnifeAlertPlaceholder2 !== newCfg.KnifeAlertPlaceholder2;
 
   // Om ingen relevant inställning ändrats → gör inget
   if (
-    !(
-      filterChanged ||
-      glowToggleChanged ||
-      blinkToggleChanged ||
-      alertToggleChanged ||
-      glowRangeChanged ||
-      blinkRangeChanged ||
-      alertRangeChanged
-    )
+      !(
+          filterChanged ||
+          glowToggleChanged ||
+          blinkToggleChanged ||
+          alertToggleChanged ||
+          glowRangeChanged ||
+          blinkRangeChanged ||
+          alertRangeChanged
+      )
   ) {
     return;
   }
 
   // Rensa alla kort från tidigare effekter
   document
-    .querySelectorAll('cw-csgo-market-item-card-wrapper, cw-csgo-market-item-card')
-    .forEach(c => {
-      c.style.boxShadow = '';
-      c.classList.remove('knife-blink');
-    });
+      .querySelectorAll('cw-csgo-market-item-card-wrapper, cw-csgo-market-item-card')
+      .forEach(c => {
+        c.style.boxShadow = '';
+        c.classList.remove('knife-blink');
+      });
 
   // Återställ alertedCards när alert-inställning eller filter ändras
   if (alertToggleChanged || alertRangeChanged || filterChanged) {
